@@ -980,30 +980,32 @@ function DiscoverContent() {
           justify-content: center;
           cursor: pointer;
           color: #fff;
-          transition: all 0.3s;
+          transition: all 0.3s ease;
           width: 40px;
           height: 40px;
           border-radius: 50%;
           background: #000000;
           backdrop-filter: blur(8px);
-          border: none;
+          border: 1.5px solid transparent;
+          box-sizing: border-box;
         }
         .cfg-fav-inline:hover {
-          transform: scale(1.1);
+          transform: scale(1.05);
           background: #222222;
         }
         .cfg-fav-inline.active {
-          background: #e53935;
-          color: #fff;
-          transform: scale(1.1);
+          background: #ffffff;
+          color: #000000;
+          border-color: #000000;
         }
         .cfg-fav-inline.active:hover {
-          background: #c62828;
+          background: #f0f0f0;
+          transform: scale(1.05);
         }
         .cfg-fav-inline svg {
           width: 20px;
           height: 20px;
-          transition: transform 0.3s;
+          transition: transform 0.3s ease;
         }
         .cfg-fav-inline:active svg { transform: scale(0.9); }
         .cfg-add-now-btn {
@@ -1018,6 +1020,12 @@ function DiscoverContent() {
           text-transform: uppercase;
           cursor: pointer;
           transition: all 0.4s;
+          width: 140px;
+          text-align: center;
+          display: inline-flex;
+          justify-content: center;
+          align-items: center;
+          box-sizing: border-box;
         }
         .cfg-add-now-btn:hover {
           background: #333;
@@ -1879,7 +1887,7 @@ function DiscoverContent() {
                       style={{}} 
                       onClick={handleBookNow}
                     >
-                      {isAdded ? 'Added ✓' : 'Add to Cart'}
+                      {isAdded ? 'Added to Cart' : 'Add to Cart'}
                     </button>
                   )}
                   {hasConfig && (
@@ -1897,7 +1905,7 @@ function DiscoverContent() {
                           strokeLinecap="round"
                           strokeLinejoin="round"
                         >
-                          <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l8.84-8.84 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path>
+                          <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path>
                         </svg>
                       </div>
                     </div>

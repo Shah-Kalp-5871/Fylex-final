@@ -298,7 +298,7 @@ export default function Wishlist() {
                       onClick={(e) => handleAddToCart(e, item)} 
                       className={`btn-cart ${addedItems[item.id] ? 'added' : ''}`}
                     >
-                      {addedItems[item.id] ? 'Added ✓' : 'Move to cart'}
+                      {addedItems[item.id] ? 'Added to cart' : 'Move to cart'}
                     </button>
                   </div>
                 </div>
