@@ -372,7 +372,7 @@ const Checkout = () => {
                       <label>Postal Code</label>
                       <input type="text" name="postalCode" value={formData.postalCode} onChange={updateFormData} placeholder="100001" maxLength={6} />
                       {validationErrors.postalCode && <span className="error-msg">{validationErrors.postalCode}</span>}
-                      {formData.area && formData.state && <span style={{ color: '#a0a0a0', fontWeight: 600, fontSize: '11px', marginTop: '6px', display: 'block' }}>Area: {formData.area}, {formData.state}</span>}
+                      {formData.area && formData.state && <span style={{ color: '#555555', fontWeight: 600, fontSize: '11px', marginTop: '6px', display: 'block' }}>Area: {formData.area}, {formData.state}</span>}
                     </div>
                     <div className={`form-group full ${validationErrors.phone ? 'error' : ''}`}>
                       <label>Phone Number</label>

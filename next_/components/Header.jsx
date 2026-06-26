@@ -347,7 +347,7 @@ const Header = () => {
         </div>
       </div>
 
-      <header className={`nav-v1 ${isScrolled ? 'scrolled' : ''} ${scrollDir === 'down' && isScrolled ? 'hidden' : ''}`}>
+      <header className={`nav-v1 ${isScrolled ? 'scrolled' : ''} ${scrollDir === 'down' && isScrolled && !isMenuOpen ? 'hidden' : ''}`}>
         <div className="header-left">
           <button className="nav-trigger" onClick={toggleMenu}>
             <div className={`hamburger-v1 ${isMenuOpen ? 'open' : ''}`}>
