@@ -34,3 +34,6 @@ If you need to update the database schema in the future, use the following Prism
 - **Migrate Database:** `npx prisma migrate dev` (Applies schema changes and updates Prisma Client)
 - **Seed Database:** `npx prisma db seed` (Populates the database with initial data)
 - **Prisma Studio:** `npx prisma studio` (Opens a web UI to view and edit your database records)
+
+---
+> Last updated: 2026-06-26 — Redeployed on new unified monorepo (Fylex-final)
