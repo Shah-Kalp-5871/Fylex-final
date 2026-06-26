@@ -480,7 +480,9 @@ function DiscoverContent() {
         .cfg-book-btn {
           display: inline-flex;
           align-items: center;
+          justify-content: center;
           gap: 12px;
+          min-width: 140px;
           padding: 8px 16px;
           background: #1a1a1a;
           color: #fff;

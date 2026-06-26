@@ -180,14 +180,14 @@ const Profile = () => {
                 </div>
               </div>
 
-              <h3 style={{ fontSize: '10px', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.15em', color: 'var(--navy)', marginBottom: '20px' }}>Recent Acquisitions</h3>
+              <h3 style={{ fontSize: '10px', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.15em', color: '#ffffff', marginBottom: '20px' }}>Recent Acquisitions</h3>
               <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
                 {recentOrders.length > 0 ? recentOrders.map(order => (
                   <div key={order.id} className="order-card-premium">
                     <img src={getFileUrl(order.preview?.image) || '/assets/fylex-watch-v2/premium.png'} alt="Product" className="item-thumb" />
                     <div style={{ flex: 1, minWidth: 0 }}>
                       <span style={{ fontFamily: 'var(--font-mono)', fontSize: '10px', color: 'var(--text-muted)' }}>#{order.orderNumber || order.id}</span>
-                      <h4 style={{ fontSize: '15px', fontWeight: 600, color: 'var(--navy)', marginTop: '2px' }}>{order.preview?.title || 'Bespoke Timepiece'}</h4>
+                      <h4 style={{ fontSize: '15px', fontWeight: 600, color: '#ffffff', marginTop: '2px' }}>{order.preview?.title || 'Bespoke Timepiece'}</h4>
                       <div className="md:hidden" style={{ marginTop: '8px' }}>
                         <span className={`item-status-pill ${statusStyles[order.status?.toUpperCase()] || 'status-processing'}`}>{order.status}</span>
                       </div>
@@ -240,7 +240,7 @@ const Profile = () => {
                           <button 
                             onClick={() => orderService.downloadInvoice(order.id, true)}
                             title="Download Invoice"
-                            style={{ background: 'transparent', border: 'none', cursor: 'pointer', color: 'var(--navy)', padding: '4px' }}
+                            style={{ background: 'transparent', border: 'none', cursor: 'pointer', color: '#ffffff', padding: '4px' }}
                           >
                             <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" style={{ width: 18, height: 18 }}><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" /></svg>
                           </button>
@@ -266,7 +266,7 @@ const Profile = () => {
                         <button 
                           onClick={() => orderService.downloadInvoice(order.id, true)}
                           title="Download Invoice"
-                          style={{ background: 'transparent', border: 'none', cursor: 'pointer', color: 'var(--navy)' }}
+                          style={{ background: 'transparent', border: 'none', cursor: 'pointer', color: '#ffffff' }}
                         >
                           <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" style={{ width: 16, height: 16 }}><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" /></svg>
                         </button>
@@ -301,21 +301,45 @@ const Profile = () => {
                 <div className="tracking-viz">
                   <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: '8px', position: 'relative', zIndex: 1 }}>
                     <div>
-                      <span style={{ fontSize: '9px', color: 'var(--gold)', textTransform: 'uppercase', letterSpacing: '0.18em', fontWeight: 700 }}>Current Journey</span>
+                      <span style={{ fontSize: '9px', color: '#a0a0a0', textTransform: 'uppercase', letterSpacing: '0.18em', fontWeight: 700 }}>Current Journey</span>
                       <h4 style={{ fontFamily: 'var(--font-display)', fontSize: '1.4rem', fontWeight: 500, marginTop: '4px' }}>Order #{tracking.orderNumber}</h4>
                     </div>
-                    <span style={{ fontSize: '9px', fontWeight: 700, background: 'rgba(255,255,255,0.07)', padding: '5px 12px', borderRadius: '999px', letterSpacing: '0.1em', textTransform: 'uppercase', color: 'var(--gold-light)' }}>{tracking.currentStatus}</span>
+                    <span style={{ fontSize: '9px', fontWeight: 700, background: 'rgba(255,255,255,0.07)', padding: '5px 12px', borderRadius: '999px', letterSpacing: '0.1em', textTransform: 'uppercase', color: '#ffffff' }}>{tracking.currentStatus}</span>
                   </div>
 
                   {/* Desktop timeline */}
-                  <div className="hidden md:block" style={{ position: 'relative', zIndex: 1 }}>
-                    <div className="track-progress-container">
-                      <div className="track-bar-bg"></div>
-                      <div className="track-bar" style={{ width: `${Math.max(14, (tracking.timeline.filter(s => s.completed).length / tracking.timeline.length) * 100)}%` }}></div>
-                      <div className="track-nodes">
-                        {tracking.timeline.map(step => (
-                          <div key={step.label} className={`node ${step.completed ? 'completed' : ''}`}>
-                            <div className={`node-label ${step.completed ? 'active' : ''}`}>{step.label}</div>
+                  <div className="hidden md:block" style={{ position: 'relative', zIndex: 1, marginTop: '40px' }}>
+                    <div style={{ position: 'relative' }}>
+                      {/* Background Bar */}
+                      <div style={{ position: 'absolute', top: '14px', left: '0', right: '0', height: '2px', background: 'rgba(255, 255, 255, 0.1)', borderRadius: '2px' }}></div>
+                      
+                      {/* Active Progress Bar */}
+                      <div style={{ 
+                        position: 'absolute', top: '14px', left: '0', height: '2px', 
+                        background: '#ffffff', borderRadius: '2px', transition: 'width 1s ease',
+                        width: `${(tracking.timeline.filter(s => s.completed).length - 1) / (tracking.timeline.length - 1) * 100}%`,
+                        boxShadow: '0 0 10px rgba(255,255,255,0.4)'
+                      }}></div>
+
+                      {/* Nodes */}
+                      <div style={{ display: 'flex', justifyContent: 'space-between', position: 'relative' }}>
+                        {tracking.timeline.map((step, index) => (
+                          <div key={step.label} style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', width: '120px', marginLeft: index === 0 ? '-60px' : '0', marginRight: index === tracking.timeline.length - 1 ? '-60px' : '0' }}>
+                            <div style={{
+                              width: '30px', height: '30px', borderRadius: '50%', background: '#000000',
+                              border: `2px solid ${step.completed ? '#ffffff' : 'rgba(255, 255, 255, 0.2)'}`,
+                              display: 'flex', alignItems: 'center', justifyContent: 'center',
+                              boxShadow: step.completed ? '0 0 12px rgba(255,255,255,0.3)' : 'none',
+                              transition: 'all 0.3s ease', zIndex: 2
+                            }}>
+                              <div style={{ width: '10px', height: '10px', borderRadius: '50%', background: step.completed ? '#ffffff' : 'transparent' }}></div>
+                            </div>
+                            <span style={{ 
+                              marginTop: '16px', fontSize: '10px', textTransform: 'uppercase', letterSpacing: '0.1em', fontWeight: 600,
+                              color: step.completed ? '#ffffff' : 'rgba(255, 255, 255, 0.4)', textAlign: 'center'
+                            }}>
+                              {step.label}
+                            </span>
                           </div>
                         ))}
                       </div>
@@ -323,13 +347,33 @@ const Profile = () => {
                   </div>
 
                   {/* Mobile timeline */}
-                  <div className="md:hidden vertical-timeline">
-                    {tracking.timeline.map(step => (
-                      <div key={step.label} className="v-step">
-                        <div className={`v-node ${step.completed ? 'completed' : ''}`}></div>
-                        <div className="v-info">
-                          <h4>{step.label}</h4>
-                          <p>{step.date ? new Date(step.date).toLocaleString('en-IN') : 'Pending'}</p>
+                  <div className="md:hidden" style={{ marginTop: '32px', display: 'flex', flexDirection: 'column', gap: '24px', position: 'relative' }}>
+                    {/* Vertical Background Line */}
+                    <div style={{ position: 'absolute', left: '14px', top: '14px', bottom: '14px', width: '2px', background: 'rgba(255, 255, 255, 0.1)', borderRadius: '2px' }}></div>
+                    
+                    {tracking.timeline.map((step, index) => (
+                      <div key={step.label} style={{ display: 'flex', alignItems: 'flex-start', gap: '20px', position: 'relative', zIndex: 2 }}>
+                        {/* Node */}
+                        <div style={{
+                          width: '30px', height: '30px', borderRadius: '50%', background: '#000000', flexShrink: 0,
+                          border: `2px solid ${step.completed ? '#ffffff' : 'rgba(255, 255, 255, 0.2)'}`,
+                          display: 'flex', alignItems: 'center', justifyContent: 'center',
+                          boxShadow: step.completed ? '0 0 12px rgba(255,255,255,0.3)' : 'none',
+                          transition: 'all 0.3s ease'
+                        }}>
+                          <div style={{ width: '10px', height: '10px', borderRadius: '50%', background: step.completed ? '#ffffff' : 'transparent' }}></div>
+                        </div>
+                        {/* Info */}
+                        <div style={{ paddingTop: '4px' }}>
+                          <h4 style={{ 
+                            fontSize: '12px', textTransform: 'uppercase', letterSpacing: '0.1em', fontWeight: 600, margin: 0,
+                            color: step.completed ? '#ffffff' : 'rgba(255, 255, 255, 0.4)'
+                          }}>
+                            {step.label}
+                          </h4>
+                          <p style={{ margin: '4px 0 0 0', fontSize: '11px', color: 'rgba(255, 255, 255, 0.5)' }}>
+                            {step.date ? new Date(step.date).toLocaleString('en-IN') : 'Pending'}
+                          </p>
                         </div>
                       </div>
                     ))}
