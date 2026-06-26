@@ -30,31 +30,40 @@ jobs:
             # ── BACKEND (NEST) ─────────────────────────────────────────────
             echo "⚙️  Deploying Backend..."
             cd /home/fylex/nest_
+
             echo "📦 Installing backend dependencies..."
-            npm install
+            npm install --frozen-lockfile
+
             echo "🗄️  Generating Prisma Client & Running Migrations..."
             npx prisma generate
             npx prisma migrate deploy
+
             echo "🔨 Building backend..."
             npm run build
+
             echo "♻️  Restarting backend service..."
-            # Using dist/src/main.js as per your Nest build output
-            pm2 restart fylex-backend || pm2 start dist/src/main.js --name "fylex-backend"
+            pm2 restart fylex-backend --update-env || pm2 start dist/src/main.js --name "fylex-backend"
 
             # ── FRONTEND (NEXT) ────────────────────────────────────────────
             echo "🎨 Deploying Frontend..."
             cd /home/fylex/next_
+
             echo "📦 Installing frontend dependencies..."
-            npm install
+            npm install --frozen-lockfile
+
             echo "🔨 Building frontend..."
             npm run build
+
             echo "♻️  Restarting frontend service..."
-            # Running next binary directly to avoid NPM ghost processes
-            pm2 restart fylex-frontend || pm2 start node_modules/next/dist/bin/next --name "fylex-frontend" -- start -p 3002
+            pm2 restart fylex-frontend --update-env || pm2 start node_modules/next/dist/bin/next --name "fylex-frontend" -- start -p 3002
+
+            # ── PERSIST PM2 STATE ──────────────────────────────────────────
+            echo "💾 Saving PM2 process list..."
+            pm2 save
 
             # ── DONE ───────────────────────────────────────────────────────
             echo "========================================="
             echo "✅ Deployment successful!"
-            echo "   Backend : pm2 status fylex-backend"
-            echo "   Frontend: pm2 status fylex-frontend"
+            echo "   Backend : http://187.127.131.26/api"
+            echo "   Frontend: http://187.127.131.26"
             echo "========================================="
