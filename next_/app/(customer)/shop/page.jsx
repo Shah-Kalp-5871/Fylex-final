@@ -667,6 +667,41 @@ export default function Shop() {
             loading="lazy" /><span className="mvpl">{videoSettings.shop_mv_photo4_lbl || 'Self-winding Rotor'}</span></div>
         </div>
       </section>
+
+      {/* Founder Section */}
+      <section 
+        className="founder-section" 
+        style={{
+          backgroundColor: '#000',
+          color: '#fff',
+          padding: '80px 20px',
+          textAlign: 'center',
+          borderTop: '1px solid #222'
+        }}
+      >
+        <div style={{ maxWidth: '800px', margin: '0 auto' }}>
+          <h2 style={{ 
+            fontSize: '2rem', 
+            textTransform: 'uppercase', 
+            letterSpacing: '4px', 
+            marginBottom: '30px',
+            fontWeight: '300'
+          }}>
+            From The Founder
+          </h2>
+          <div style={{
+            fontSize: '1.2rem',
+            lineHeight: '1.8',
+            color: '#ccc',
+            fontWeight: '300',
+            fontStyle: 'italic',
+            whiteSpace: 'pre-wrap'
+          }}>
+            {videoSettings.founder_message || 'Welcome to our premium watch collection. Crafted with precision and passion.'}
+          </div>
+        </div>
+      </section>
+
     </div>
   );
 }

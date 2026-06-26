@@ -100,6 +100,12 @@ const navItems = [
     path: '/admin/community',
   },
   {
+    key: 'founder',
+    title: 'Founder',
+    icon: 'fas fa-user-tie',
+    path: '/admin/founder',
+  },
+  {
     key: 'care',
     title: 'Care & Support',
     icon: 'fas fa-life-ring',
