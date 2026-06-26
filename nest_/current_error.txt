@@ -1,0 +1,709 @@
+﻿Prisma schema loaded from prisma\schema.prisma
+node.exe : 
+At line:1 char:1
++ & "C:\Program 
+Files\nodejs/node.exe" 
+"C:\Program 
+Files\nodejs/node_mo ...
++ ~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo        
+      : NotSpecified: (:  
+  String) [], RemoteExc   
+ eption
+    + FullyQualifiedError 
+   Id : NativeCommandErr  
+  or
+ 
+Error: Prisma schema 
+validation - (validate 
+wasm)
+Error code: P1012
+[1;91merror[0m: 
+[1mError validating 
+field `oldData` in model 
+`ActivityLog`: Field 
+`oldData` in model 
+`ActivityLog` can't be of 
+type Json. The current 
+connector does not 
+support the Json type.[0m
+  [1;94m-->[0m  [4mpris
+ma\schema.prisma:266[0m
+[1;94m   | [0m
+[1;94m265 | [0m  
+entityId       BigInt?   
+@map("entity_id")
+[1;94m266 | [0m  
+[1;91moldData        
+Json?     @map("old_data")
+[0m
+[1;94m267 | [0m  
+newData        Json?     
+@map("new_data")
+[1;94m   | [0m
+[1;91merror[0m: 
+[1mError validating 
+field `newData` in model 
+`ActivityLog`: Field 
+`newData` in model 
+`ActivityLog` can't be of 
+type Json. The current 
+connector does not 
+support the Json type.[0m
+  [1;94m-->[0m  [4mpris
+ma\schema.prisma:267[0m
+[1;94m   | [0m
+[1;94m266 | [0m  
+oldData        Json?     
+@map("old_data")
+[1;94m267 | [0m  
+[1;91mnewData        
+Json?     @map("new_data")
+[0m
+[1;94m268 | [0m  
+ipAddress      String?   
+@map("ip_address")
+[1;94m   | [0m
+[1;91merror[0m: 
+[1mError validating 
+field `additionalData` in 
+model `ActivityLog`: 
+Field `additionalData` in 
+model `ActivityLog` can't 
+be of type Json. The 
+current connector does 
+not support the Json 
+type.[0m
+  [1;94m-->[0m  [4mpris
+ma\schema.prisma:270[0m
+[1;94m   | [0m
+[1;94m269 | [0m  
+userAgent      String?   
+@map("user_agent")
+[1;94m270 | [0m  
+[1;91madditionalData 
+Json?     
+@map("additional_data")
+[0m
+[1;94m271 | [0m  
+createdAt      DateTime? 
+@map("created_at")
+[1;94m   | [0m
+[1;91merror[0m: 
+[1mError validating 
+field `oldValues` in 
+model `AuditTrail`: Field 
+`oldValues` in model 
+`AuditTrail` can't be of 
+type Json. The current 
+connector does not 
+support the Json type.[0m
+  [1;94m-->[0m  [4mpris
+ma\schema.prisma:292[0m
+[1;94m   | [0m
+[1;94m291 | [0m  event  
+       String   
+[1;94m292 | [0m  
+[1;91moldValues     
+Json?     
+@map("old_values")
+[0m
+[1;94m293 | [0m  
+newValues     Json?     
+@map("new_values")
+[1;94m   | [0m
+[1;91merror[0m: 
+[1mError validating 
+field `newValues` in 
+model `AuditTrail`: Field 
+`newValues` in model 
+`AuditTrail` can't be of 
+type Json. The current 
+connector does not 
+support the Json type.[0m
+  [1;94m-->[0m  [4mpris
+ma\schema.prisma:293[0m
+[1;94m   | [0m
+[1;94m292 | [0m  
+oldValues     Json?     
+@map("old_values")
+[1;94m293 | [0m  
+[1;91mnewValues     
+Json?     
+@map("new_values")
+[0m
+[1;94m294 | [0m  
+ipAddress     String?   
+@map("ip_address")
+[1;94m   | [0m
+[1;91merror[0m: 
+[1mError validating 
+field `tags` in model 
+`AuditTrail`: Field 
+`tags` in model 
+`AuditTrail` can't be of 
+type Json. The current 
+connector does not 
+support the Json type.[0m
+  [1;94m-->[0m  [4mpris
+ma\schema.prisma:297[0m
+[1;94m   | [0m
+[1;94m296 | [0m  url    
+       String?  
+[1;94m297 | [0m  
+[1;91mtags          Json?
+[0m
+[1;94m298 | [0m  
+createdAt     DateTime? 
+@map("created_at")
+[1;94m   | [0m
+[1;91merror[0m: 
+[1mError validating 
+field `metadata` in model 
+`EmailLog`: Field 
+`metadata` in model 
+`EmailLog` can't be of 
+type Json. The current 
+connector does not 
+support the Json type.[0m
+  [1;94m-->[0m  [4mpris
+ma\schema.prisma:319[0m
+[1;94m   | [0m
+[1;94m318 | [0m  status 
+     String 
+@default("sent")
+[1;94m319 | [0m  
+[1;91mmetadata    Json?
+[0m
+[1;94m320 | [0m  sentAt 
+     DateTime       
+@default(now()) 
+@map("sent_at")
+[1;94m   | [0m
+[1;91merror[0m: 
+[1mError validating 
+field `metadata` in model 
+`SmsLog`: Field 
+`metadata` in model 
+`SmsLog` can't be of type 
+Json. The current 
+connector does not 
+support the Json type.[0m
+  [1;94m-->[0m  [4mpris
+ma\schema.prisma:341[0m
+[1;94m   | [0m
+[1;94m340 | [0m  status 
+     String 
+@default("sent")
+[1;94m341 | [0m  
+[1;91mmetadata    Json?
+[0m
+[1;94m342 | [0m  sentAt 
+     DateTime     
+@default(now()) 
+@map("sent_at")
+[1;94m   | [0m
+[1;91merror[0m: 
+[1mError validating 
+field `thumbnails` in 
+model `Media`: Field 
+`thumbnails` in model 
+`Media` can't be of type 
+Json. The current 
+connector does not 
+support the Json type.[0m
+  [1;94m-->[0m  [4mpris
+ma\schema.prisma:431[0m
+[1;94m   | [0m
+[1;94m430 | [0m  height 
+          Int?
+[1;94m431 | [0m  
+[1;91mthumbnails       
+Json?
+[0m
+[1;94m432 | [0m  
+altText          String?  
+ @map("alt_text")
+[1;94m   | [0m
+[1;91merror[0m: 
+[1mError validating 
+field `metadata` in model 
+`Media`: Field `metadata` 
+in model `Media` can't be 
+of type Json. The current 
+connector does not 
+support the Json type.[0m
+  [1;94m-->[0m  [4mpris
+ma\schema.prisma:437[0m
+[1;94m   | [0m
+[1;94m436 | [0m  
+uploaderType     String?  
+ @map("uploader_type")
+[1;94m437 | [0m  
+[1;91mmetadata         
+Json?
+[0m
+[1;94m438 | [0m  
+createdAt        
+DateTime? 
+@map("created_at")
+[1;94m   | [0m
+[1;91merror[0m: 
+[1mError validating 
+field `structuredData` in 
+model `SeoMetadata`: 
+Field `structuredData` in 
+model `SeoMetadata` can't 
+be of type Json. The 
+current connector does 
+not support the Json 
+type.[0m
+  [1;94m-->[0m  [4mpris
+ma\schema.prisma:474[0m
+[1;94m   | [0m
+[1;94m473 | [0m  
+isNofollow         
+Boolean   @default(false) 
+@map("is_nofollow")
+[1;94m474 | [0m  
+[1;91mstructuredData     
+Json?     
+@map("structured_data")
+[0m
+[1;94m475 | [0m  
+createdAt          
+DateTime? 
+@map("created_at")
+[1;94m   | [0m
+[1;91merror[0m: 
+[1mError validating 
+field `countries` in 
+model `ShippingZone`: 
+Field `countries` in 
+model `ShippingZone` 
+can't be of type Json. 
+The current connector 
+does not support the Json 
+type.[0m
+  [1;94m-->[0m  [4mpris
+ma\schema.prisma:1031[0m
+[1;94m   | [0m
+[1;94m1030 | [0m  name  
+    String   
+[1;94m1031 | [0m  
+[1;91mcountries Json?
+[0m
+[1;94m1032 | [0m  
+states    Json?     
+@map("states")
+[1;94m   | [0m
+[1;91merror[0m: 
+[1mError validating 
+field `states` in model 
+`ShippingZone`: Field 
+`states` in model 
+`ShippingZone` can't be 
+of type Json. The current 
+connector does not 
+support the Json type.[0m
+  [1;94m-->[0m  [4mpris
+ma\schema.prisma:1032[0m
+[1;94m   | [0m
+[1;94m1031 | [0m  
+countries Json?
+[1;94m1032 | [0m  
+[1;91mstates    Json?    
+ @map("states")
+[0m
+[1;94m1033 | [0m  
+zipCodes  Json?     
+@map("zip_codes")
+[1;94m   | [0m
+[1;91merror[0m: 
+[1mError validating 
+field `zipCodes` in model 
+`ShippingZone`: Field 
+`zipCodes` in model 
+`ShippingZone` can't be 
+of type Json. The current 
+connector does not 
+support the Json type.[0m
+  [1;94m-->[0m  [4mpris
+ma\schema.prisma:1033[0m
+[1;94m   | [0m
+[1;94m1032 | [0m  
+states    Json?     
+@map("states")
+[1;94m1033 | [0m  
+[1;91mzipCodes  Json?    
+ @map("zip_codes")
+[0m
+[1;94m1034 | [0m  
+isActive  Boolean   
+@default(true) 
+@map("is_active")
+[1;94m   | [0m
+[1;91merror[0m: 
+[1mError validating 
+field `config` in model 
+`ShippingMethod`: Field 
+`config` in model 
+`ShippingMethod` can't be 
+of type Json. The current 
+connector does not 
+support the Json type.[0m
+  [1;94m-->[0m  [4mpris
+ma\schema.prisma:1054[0m
+[1;94m   | [0m
+[1;94m1053 | [0m  
+description String?  
+[1;94m1054 | [0m  
+[1;91mconfig      Json?
+[0m
+[1;94m1055 | [0m  
+isActive    Boolean   
+@default(true) 
+@map("is_active")
+[1;94m   | [0m
+[1;91merror[0m: 
+[1mError validating 
+field `attributes` in 
+model `CartItem`: Field 
+`attributes` in model 
+`CartItem` can't be of 
+type Json. The current 
+connector does not 
+support the Json type.[0m
+  [1;94m-->[0m  [4mpris
+ma\schema.prisma:1225[0m
+[1;94m   | [0m
+[1;94m1224 | [0m  
+offerId          BigInt?  
+ @map("offer_id")
+[1;94m1225 | [0m  
+[1;91mattributes       
+Json?
+[0m
+[1;94m1226 | [0m  
+createdAt        
+DateTime? 
+@map("created_at")
+[1;94m   | [0m
+[1;91merror[0m: 
+[1mError validating 
+field `displayRules` in 
+model `Popup`: Field 
+`displayRules` in model 
+`Popup` can't be of type 
+Json. The current 
+connector does not 
+support the Json type.[0m
+  [1;94m-->[0m  [4mpris
+ma\schema.prisma:1363[0m
+[1;94m   | [0m
+[1;94m1362 | [0m  
+isActive       Boolean   
+@default(true) 
+@map("is_active")
+[1;94m1363 | [0m  
+[1;91mdisplayRules   
+Json?     
+@map("display_rules")
+[0m
+[1;94m1364 | [0m  
+targetingRules Json?     
+@map("targeting_rules")
+[1;94m   | [0m
+[1;91merror[0m: 
+[1mError validating 
+field `targetingRules` in 
+model `Popup`: Field 
+`targetingRules` in model 
+`Popup` can't be of type 
+Json. The current 
+connector does not 
+support the Json type.[0m
+  [1;94m-->[0m  [4mpris
+ma\schema.prisma:1364[0m
+[1;94m   | [0m
+[1;94m1363 | [0m  
+displayRules   Json?     
+@map("display_rules")
+[1;94m1364 | [0m  
+[1;91mtargetingRules 
+Json?     
+@map("targeting_rules")
+[0m
+[1;94m1365 | [0m  
+startsAt       DateTime? 
+@map("starts_at")
+[1;94m   | [0m
+[1;91merror[0m: 
+[1mError validating 
+field `data` in model 
+`Notification`: Field 
+`data` in model 
+`Notification` can't be 
+of type Json. The current 
+connector does not 
+support the Json type.[0m
+  [1;94m-->[0m  [4mpris
+ma\schema.prisma:1583[0m
+[1;94m   | [0m
+[1;94m1582 | [0m  
+status         String    
+@default("pending")
+[1;94m1583 | [0m  
+[1;91mdata           
+Json?
+[0m
+[1;94m1584 | [0m  
+sentAt         DateTime? 
+@map("sent_at")
+[1;94m   | [0m
+[1;91merror[0m: 
+[1mError validating 
+field `attributes` in 
+model `OrderItem`: Field 
+`attributes` in model 
+`OrderItem` can't be of 
+type Json. The current 
+connector does not 
+support the Json type.[0m
+  [1;94m-->[0m  [4mpris
+ma\schema.prisma:1705[0m
+[1;94m   | [0m
+[1;94m1704 | [0m  total 
+           Decimal  
+[1;94m1705 | [0m  
+[1;91mattributes       
+Json?    
+[0m
+[1;94m1706 | [0m  
+offerId          BigInt?  
+ @map("offer_id")
+[1;94m   | [0m
+[1;91merror[0m: 
+[1mError validating 
+field `dimensions` in 
+model `OrderShipment`: 
+Field `dimensions` in 
+model `OrderShipment` 
+can't be of type Json. 
+The current connector 
+does not support the Json 
+type.[0m
+  [1;94m-->[0m  [4mpris
+ma\schema.prisma:1811[0m
+[1;94m   | [0m
+[1;94m1810 | [0m  
+weight            
+Decimal? 
+[1;94m1811 | [0m  
+[1;91mdimensions        
+Json?
+[0m
+[1;94m1812 | [0m  
+shippingLabel     Json?   
+  @map("shipping_label")
+[1;94m   | [0m
+[1;91merror[0m: 
+[1mError validating 
+field `shippingLabel` in 
+model `OrderShipment`: 
+Field `shippingLabel` in 
+model `OrderShipment` 
+can't be of type Json. 
+The current connector 
+does not support the Json 
+type.[0m
+  [1;94m-->[0m  [4mpris
+ma\schema.prisma:1812[0m
+[1;94m   | [0m
+[1;94m1811 | [0m  
+dimensions        Json?
+[1;94m1812 | [0m  
+[1;91mshippingLabel     
+Json?     
+@map("shipping_label")
+[0m
+[1;94m1813 | [0m  
+shippedAt         
+DateTime? 
+@map("shipped_at")
+[1;94m   | [0m
+[1;91merror[0m: 
+[1mError validating 
+field `content` in model 
+`HomeSection`: Field 
+`content` in model 
+`HomeSection` can't be of 
+type Json. The current 
+connector does not 
+support the Json type.[0m
+  [1;94m-->[0m  [4mpris
+ma\schema.prisma:1919[0m
+[1;94m   | [0m
+[1;94m1918 | [0m  type  
+    String   
+[1;94m1919 | [0m  
+[1;91mcontent   Json?
+[0m
+[1;94m1920 | [0m  
+isActive  Boolean   
+@default(true) 
+@map("is_active")
+[1;94m   | [0m
+[1;91merror[0m: 
+[1mError validating 
+field `data` in model 
+`HomePageSection`: Field 
+`data` in model 
+`HomePageSection` can't 
+be of type Json. The 
+current connector does 
+not support the Json 
+type.[0m
+  [1;94m-->[0m  [4mpris
+ma\schema.prisma:1936[0m
+[1;94m   | [0m
+[1;94m1935 | [0m  type  
+       String    
+@default("banner")
+[1;94m1936 | [0m  
+[1;91mdata         Json?
+[0m
+[1;94m1937 | [0m  
+displayRules Json?     
+@map("display_rules")
+[1;94m   | [0m
+[1;91merror[0m: 
+[1mError validating 
+field `displayRules` in 
+model `HomePageSection`: 
+Field `displayRules` in 
+model `HomePageSection` 
+can't be of type Json. 
+The current connector 
+does not support the Json 
+type.[0m
+  [1;94m-->[0m  [4mpris
+ma\schema.prisma:1937[0m
+[1;94m   | [0m
+[1;94m1936 | [0m  data  
+       Json?
+[1;94m1937 | [0m  
+[1;91mdisplayRules Json? 
+    @map("display_rules")
+[0m
+[1;94m1938 | [0m  
+sortOrder    Int       
+@default(0) 
+@map("sort_order")
+[1;94m   | [0m
+[1;91merror[0m: 
+[1mError validating 
+field `variables` in 
+model 
+`NotificationTemplate`: 
+Field `variables` in 
+model 
+`NotificationTemplate` 
+can't be of type Json. 
+The current connector 
+does not support the Json 
+type.[0m
+  [1;94m-->[0m  [4mpris
+ma\schema.prisma:2006[0m
+[1;94m   | [0m
+[1;94m2005 | [0m  
+triggerEvent String?   
+@map("trigger_event")
+[1;94m2006 | [0m  
+[1;91mvariables    Json?
+[0m
+[1;94m2007 | [0m  
+isActive     Boolean   
+@default(true) 
+@map("is_active")
+[1;94m   | [0m
+[1;91merror[0m: 
+[1mError validating 
+field `response` in model 
+`Payment`: Field 
+`response` in model 
+`Payment` can't be of 
+type Json. The current 
+connector does not 
+support the Json type.[0m
+  [1;94m-->[0m  [4mpris
+ma\schema.prisma:2029[0m
+[1;94m   | [0m
+[1;94m2028 | [0m  
+failureReason  String?   
+@map("failure_reason")
+[1;94m2029 | [0m  
+[1;91mresponse       
+Json?    
+[0m
+[1;94m2030 | [0m  
+paidAt         DateTime? 
+@map("paid_at")
+[1;94m   | [0m
+[1;91merror[0m: 
+[1mError validating 
+field `gatewayResponse` 
+in model 
+`PaymentAttempt`: Field 
+`gatewayResponse` in 
+model `PaymentAttempt` 
+can't be of type Json. 
+The current connector 
+does not support the Json 
+type.[0m
+  [1;94m-->[0m  [4mpris
+ma\schema.prisma:2265[0m
+[1;94m   | [0m
+[1;94m2264 | [0m  
+status          String    
+@default("initiated")
+[1;94m2265 | [0m  
+[1;91mgatewayResponse 
+Json?     
+@map("gateway_response")
+[0m
+[1;94m2266 | [0m  
+failureReason   String?   
+@map("failure_reason")
+[1;94m   | [0m
+[1;91merror[0m: 
+[1mError validating 
+field `pageData` in model 
+`PopupStat`: Field 
+`pageData` in model 
+`PopupStat` can't be of 
+type Json. The current 
+connector does not 
+support the Json type.[0m
+  [1;94m-->[0m  [4mpris
+ma\schema.prisma:2286[0m
+[1;94m   | [0m
+[1;94m2285 | [0m  
+userAgent  String?   
+@map("user_agent")
+[1;94m2286 | [0m  
+[1;91mpageData   Json?   
+  @map("page_data")
+[0m
+[1;94m2287 | [0m  
+createdAt  DateTime? 
+@map("created_at")
+[1;94m   | [0m
+
+Validation Error Count: 29
+[Context: validate]
+
+Prisma CLI Version : 
+5.22.0

@@ -1,0 +1,91 @@
+﻿Environment variables loaded from .env
+Prisma schema loaded from prisma\schema.prisma
+node.exe : 
+At line:1 char:1
++ & "C:\Program Files\nodejs/node.exe" "C:\Program Files\nodejs/node_mo ...
++ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : NotSpecified: (:String) [], RemoteException
+    + FullyQualifiedErrorId : NativeCommandError
+ 
+Error: Prisma schema validation - (validate wasm)
+Error code: P1012
+[1;91merror[0m: [1mError validating field `tierPrices` in model `Product`: The relation field `tierPrices` on 
+model `Product` is missing an opposite relation field on the model `ProductTierPrice`. Either run `prisma 
+format` or add it manually.[0m
+  [1;94m-->[0m  [4mprisma\schema.prisma:779[0m
+[1;94m   | [0m
+[1;94m778 | [0m  upSellsFrom    UpSellProduct[]    @relation("ProductUpSellTargets")
+[1;94m779 | [0m  [1;91mtierPrices     ProductTierPrice[][0m
+[1;94m780 | [0m
+[1;94m   | [0m
+[1;91merror[0m: [1mError validating field `stockTransferItems` in model `Product`: The relation field 
+`stockTransferItems` on model `Product` is missing an opposite relation field on the model `StockTransferItem`. 
+Either run `prisma format` or add it manually.[0m
+  [1;94m-->[0m  [4mprisma\schema.prisma:782[0m
+[1;94m   | [0m
+[1;94m781 | [0m  // Inventory Relations (Part 13)
+[1;94m782 | [0m  [1;91mstockTransferItems StockTransferItem[][0m
+[1;94m783 | [0m  stockHistories     StockHistory[]
+[1;94m   | [0m
+[1;91merror[0m: [1mError validating field `stockHistories` in model `Product`: The relation field 
+`stockHistories` on model `Product` is missing an opposite relation field on the model `StockHistory`. Either 
+run `prisma format` or add it manually.[0m
+  [1;94m-->[0m  [4mprisma\schema.prisma:783[0m
+[1;94m   | [0m
+[1;94m782 | [0m  stockTransferItems StockTransferItem[]
+[1;94m783 | [0m  [1;91mstockHistories     StockHistory[][0m
+[1;94m784 | [0m
+[1;94m   | [0m
+[1;91merror[0m: [1mError validating field `cartItems` in model `Product`: The relation field `cartItems` on 
+model `Product` is missing an opposite relation field on the model `CartItem`. Either run `prisma format` or add 
+it manually.[0m
+  [1;94m-->[0m  [4mprisma\schema.prisma:786[0m
+[1;94m   | [0m
+[1;94m785 | [0m  // Customer Experience Relations (Part 14)
+[1;94m786 | [0m  [1;91mcartItems           CartItem[][0m
+[1;94m787 | [0m  itemCollectionItems ItemCollectionItem[]
+[1;94m   | [0m
+[1;91merror[0m: [1mError validating field `wishlists` in model `Product`: The relation field `wishlists` on 
+model `Product` is missing an opposite relation field on the model `Wishlist`. Either run `prisma format` or add 
+it manually.[0m
+  [1;94m-->[0m  [4mprisma\schema.prisma:790[0m
+[1;94m   | [0m
+[1;94m789 | [0m  // Engagement Relations (Part 15)
+[1;94m790 | [0m  [1;91mwishlists Wishlist[][0m
+[1;94m791 | [0m
+[1;94m   | [0m
+[1;91merror[0m: [1mError validating field `wishlists` in model `ProductVariant`: The relation field 
+`wishlists` on model `ProductVariant` is missing an opposite relation field on the model `Wishlist`. Either run 
+`prisma format` or add it manually.[0m
+  [1;94m-->[0m  [4mprisma\schema.prisma:849[0m
+[1;94m   | [0m
+[1;94m848 | [0m  // Engagement Relations (Part 15)
+[1;94m849 | [0m  [1;91mwishlists Wishlist[][0m
+[1;94m850 | [0m
+[1;94m   | [0m
+[1;91merror[0m: [1mError validating field `productVariant` in model `ProductTierPrice`: The relation field 
+`productVariant` on model `ProductTierPrice` is missing an opposite relation field on the model 
+`ProductVariant`. Either run `prisma format` or add it manually.[0m
+  [1;94m-->[0m  [4mprisma\schema.prisma:1003[0m
+[1;94m   | [0m
+[1;94m1002 | [0m
+[1;94m1003 | [0m  [1;91mproductVariant  ProductVariant   @relation(fields: [productVariantId], references: 
+[id], onDelete: Cascade)[0m
+[1;94m1004 | [0m  customerSegment CustomerSegment? @relation(fields: [customerSegmentId], references: [id], 
+onDelete: SetNull)
+[1;94m   | [0m
+[1;91merror[0m: [1mError validating field `product` in model `Review`: The relation field `product` on model 
+`Review` is missing an opposite relation field on the model `Product`. Either run `prisma format` or add it 
+manually.[0m
+  [1;94m-->[0m  [4mprisma\schema.prisma:1541[0m
+[1;94m   | [0m
+[1;94m1540 | [0m
+[1;94m1541 | [0m  [1;91mproduct Product @relation(fields: [productId], references: [id], onDelete: 
+Cascade)[0m
+[1;94m1542 | [0m
+[1;94m   | [0m
+
+Validation Error Count: 8
+[Context: validate]
+
+Prisma CLI Version : 5.22.0

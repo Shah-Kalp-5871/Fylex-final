@@ -1,0 +1,195 @@
+@import url('https://fonts.cdnfonts.com/css/avenir');
+@import url('https://fonts.cdnfonts.com/css/neue-haas-grotesk-display-pro');
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+@import "tailwindcss";
+
+:root {
+  /* Master Palette */
+  --fyl-deep-blue: #1C2E4A;
+  --fyl-black: #0A0A0A;
+  --fyl-silver: #D3D3D3;
+  --fyl-orange: #F28C38;
+  --fyl-teal: #48C9B0;
+  --fyl-gold: #F2C94C;
+  --fyl-white: #F9F9F7;
+  --fyl-charcoal: #555555;
+
+  /* Mappings */
+  --gold: var(--fyl-gold);
+  --gold-light: #FFEDA3;
+  --gold-dim: rgba(242, 201, 76, 0.35);
+  --cream: var(--fyl-white);
+  --cream-2: #F2F2EE;
+  --cream-3: #E9ECEF;
+  --dark: var(--fyl-black);
+  --navy: var(--fyl-deep-blue);
+  --rust: var(--fyl-orange);
+  --ts: var(--fyl-charcoal);
+  --curve: 72px;
+  --curve-sm: 40px;
+  --header-h: 70px;
+}
+
+*,
+*::before,
+*::after {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: auto !important;
+}
+
+html.lenis,
+html.lenis body {
+  height: auto;
+}
+
+.lenis.lenis-smooth {
+  scroll-behavior: auto !important;
+}
+
+.lenis.lenis-smooth [data-lenis-prevent] {
+  overscroll-behavior: contain;
+}
+
+.lenis.lenis-stopped {
+  overflow: hidden;
+}
+
+.lenis.lenis-scrolling iframe {
+  pointer-events: none;
+}
+
+html {
+  overflow-x: hidden;
+  max-width: 100vw;
+}
+
+body {
+  background: #F9F9F7;
+  color: #111111;
+  font-family: 'Inter', sans-serif;
+  font-weight: 300;
+  overflow-x: hidden;
+  max-width: 100vw;
+  touch-action: pan-y;
+}
+
+h1, h2, h3, .title, .hd-v2 {
+  font-family: 'Avenir', sans-serif !important;
+}
+
+h4, h5, h6, .sub-heading {
+  font-family: 'Neue Haas Grotesk Display Pro', sans-serif !important;
+}
+
+::-webkit-scrollbar {
+  display: none;
+}
+
+/* Global UI Classes from V1 */
+.label {
+  display: inline-block;
+  font-size: .6rem;
+  font-weight: 600;
+  letter-spacing: .35em;
+  text-transform: uppercase;
+  color: var(--gold);
+  margin-bottom: 24px;
+  position: relative;
+  padding-left: 40px;
+}
+
+.label::before {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 0;
+  width: 28px;
+  height: 1px;
+  background: var(--gold);
+  transform: translateY(-50%);
+}
+
+.divider {
+  width: 48px;
+  height: 1px;
+  background: var(--gold);
+  margin: 26px auto;
+  opacity: .7;
+}
+
+/* V2 Colors/Classes (maintained for Shop/Customize) */
+.lbl-v2 {
+  font-size: 11px;
+  letter-spacing: .38em;
+  text-transform: uppercase;
+  color: var(--fyl-gold);
+  font-weight: 400;
+  margin-bottom: 14px;
+}
+
+.hd-v2 {
+  font-family: 'Avenir', 'Neue Haas Grotesk Display Pro', 'Inter', sans-serif;
+  font-size: clamp(36px, 5.5vw, 82px);
+  font-weight: 400;
+  line-height: 1.08;
+  color: var(--fyl-deep-blue);
+}
+
+/* Common Buttons */
+.cta-v1 {
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: .15em;
+  text-transform: uppercase;
+  color: var(--fyl-white);
+  background: #1a1a1a;
+  padding: 8px 16px;
+  text-decoration: none;
+  transition: all 0.4s cubic-bezier(0.23, 1, 0.32, 1);
+  cursor: pointer;
+  border: 1px solid #1a1a1a;
+  display: inline-block;
+  border-radius: 999px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+}
+
+.cta-v1:hover, .cta-v1:active {
+  background: #ffffff !important;
+  color: #000000 !important;
+  border-color: #ffffff;
+  transform: translateY(-2px);
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);
+}
+
+/* Glassmorphism Button Utility */
+.btn-glass {
+  padding: 8px 16px;
+  background: #1a1a1a;
+  color: #fff;
+  text-decoration: none;
+  border-radius: 999px;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  transition: all 0.4s cubic-bezier(0.23, 1, 0.32, 1);
+  border: 1px solid #1a1a1a;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+}
+
+.btn-glass:hover, .btn-glass:active {
+  background: #ffffff !important;
+  color: #000000 !important;
+  border-color: #ffffff;
+  transform: translateY(-2px);
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);
+}

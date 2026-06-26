@@ -1,0 +1,64 @@
+Environment variables loaded from .env
+Prisma schema loaded from prisma\schema.prisma
+node.exe : 
+At line:1 char:1
++ & "C:\Program 
+Files\nodejs/node.exe" "C:\Program 
+Files\nodejs/node_mo ...
++ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : NotSpe 
+   cified: (:String) [], RemoteExce  
+  ption
+    + FullyQualifiedErrorId : Native 
+   CommandError
+ 
+Error: Prisma schema validation - 
+(validate wasm)
+Error code: P1012
+[1;91merror[0m: [1mError 
+validating field 
+`loyaltyTransactions` in model 
+`Customer`: The relation field 
+`loyaltyTransactions` on model 
+`Customer` is missing an opposite 
+relation field on the model 
+`LoyaltyTransaction`. Either run 
+`prisma format` or add it 
+manually.[0m
+  [1;94m-->[0m  
+[4mprisma\schema.prisma:187[0m
+[1;94m   | [0m
+[1;94m186 | [0m  loyalties         
+  CustomerLoyalty[]
+[1;94m187 | [0m  
+[1;91mloyaltyTransactions 
+LoyaltyTransaction[][0m
+[1;94m188 | [0m
+[1;94m   | [0m
+[1;91merror[0m: [1mError 
+validating field 
+`giftCardTransactions` in model 
+`Customer`: The relation field 
+`giftCardTransactions` on model 
+`Customer` is missing an opposite 
+relation field on the model 
+`GiftCardTransaction`. Either run 
+`prisma format` or add it 
+manually.[0m
+  [1;94m-->[0m  
+[4mprisma\schema.prisma:204[0m
+[1;94m   | [0m
+[1;94m203 | [0m  // Financial 
+Relations (Part 22)
+[1;94m204 | [0m  
+[1;91mgiftCardTransactions 
+GiftCardTransaction[][0m
+[1;94m205 | [0m
+[1;94m   | [0m
+
+Validation Error Count: 2
+[Context: validate]
+
+Prisma CLI Version : 5.22.0
+
