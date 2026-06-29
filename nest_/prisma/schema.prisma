@@ -395,6 +395,7 @@ model Media {
   productMedia     ProductMedia[]
   reviewImages     ReviewImage[]
   variantImages    VariantImage[]
+  beltImages       Belt[]           @relation("BeltImage")
 
   @@index([disk], map: "media_disk_index")
   @@index([mimeType], map: "media_mime_type_index")
@@ -701,6 +702,7 @@ model Product {
   upSellsTo           UpSellProduct[]        @relation("ProductUpSell")
   upSellsFrom         UpSellProduct[]        @relation("ProductUpSellTargets")
   productCareSteps    ProductCareStep[]
+  productBelts        ProductBelt[]
 
   @@index([status], map: "products_status_index")
   @@index([brandId], map: "products_brand_id_foreign")
@@ -1108,7 +1110,8 @@ model Cart {
 model CartItem {
   id               Int            @id @default(autoincrement())
   cartId           Int            @map("cart_id")
-  productVariantId Int            @map("product_variant_id")
+  productVariantId Int?           @map("product_variant_id")
+  beltId           Int?           @map("belt_id")
   quantity         Int            @map("quantity")
   unitPrice        Float          @map("unit_price")
   total            Float
@@ -1121,7 +1124,8 @@ model CartItem {
   cart             Cart           @relation(fields: [cartId], references: [id], onDelete: Cascade)
   offer            Offer?         @relation(fields: [offerId], references: [id])
   Product          Product?       @relation(fields: [productId], references: [id])
-  productVariant   ProductVariant @relation(fields: [productVariantId], references: [id], onDelete: Cascade)
+  productVariant   ProductVariant? @relation(fields: [productVariantId], references: [id], onDelete: Cascade)
+  belt             Belt?          @relation(fields: [beltId], references: [id], onDelete: Cascade)
 
   @@unique([cartId, productVariantId], map: "cart_items_cart_id_product_variant_id_unique")
   @@index([cartId], map: "cart_items_cart_id_index")
@@ -1544,7 +1548,8 @@ model OrderItem {
   id               Int                 @id @default(autoincrement())
   orderId          Int                 @map("order_id")
   productId        Int?                @map("product_id")
-  productVariantId Int                 @map("product_variant_id")
+  productVariantId Int?                @map("product_variant_id")
+  beltId           Int?                @map("belt_id")
   productName      String              @map("product_name")
   sku              String
   quantity         Int                 @map("quantity")
@@ -1562,7 +1567,8 @@ model OrderItem {
   offer            Offer?              @relation(fields: [offerId], references: [id])
   order            Order               @relation(fields: [orderId], references: [id], onDelete: Cascade)
   product          Product?            @relation(fields: [productId], references: [id])
-  productVariant   ProductVariant      @relation(fields: [productVariantId], references: [id], onDelete: Cascade)
+  productVariant   ProductVariant?     @relation(fields: [productVariantId], references: [id], onDelete: Cascade)
+  belt             Belt?               @relation(fields: [beltId], references: [id], onDelete: Cascade)
   returnItems      OrderReturnItem[]
   shipmentItems    OrderShipmentItem[]
 
@@ -2202,6 +2208,46 @@ model Faq {
   updatedAt DateTime @updatedAt @map("updated_at")
 
   @@map("faqs")
+}
+
+model Waitlist {
+  id           Int       @id @default(autoincrement())
+  email        String    @unique
+  name         String?
+  type         String
+  createdAt    DateTime? @default(now()) @map("created_at")
+  updatedAt    DateTime? @default(now()) @map("updated_at")
+
+  @@map("waitlist")
+}
+
+model Belt {
+  id          Int           @id @default(autoincrement())
+  name        String
+  price       Float         @default(0.00)
+  stock       Int           @default(0)
+  isActive    Boolean       @default(true) @map("is_active")
+  imageId     Int?          @map("image_id")
+  image       Media?        @relation("BeltImage", fields: [imageId], references: [id])
+  createdAt   DateTime?     @default(now()) @map("created_at")
+  updatedAt   DateTime?     @updatedAt @map("updated_at")
+  productBelts ProductBelt[]
+  cartItems   CartItem[]
+  orderItems  OrderItem[]
+
+  @@map("belts")
+}
+
+model ProductBelt {
+  productId Int      @map("product_id")
+  beltId    Int      @map("belt_id")
+  product   Product  @relation(fields: [productId], references: [id], onDelete: Cascade)
+  belt      Belt     @relation(fields: [beltId], references: [id], onDelete: Cascade)
+  createdAt DateTime? @default(now()) @map("created_at")
+
+  @@id([productId, beltId])
+  @@index([beltId], map: "product_belts_belt_id_foreign")
+  @@map("product_belts")
 }
 
 model ProductCareStep {

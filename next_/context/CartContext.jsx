@@ -21,6 +21,21 @@ export function CartProvider({ children }) {
     console.log('DEBUG: Cart Items Order from API:', data?.items?.map(i => i.id.toString()));
     const cartItems = data?.items || [];
     const mapped = cartItems.map(item => {
+        if (item.belt) {
+            return {
+                id: item.id.toString(),
+                productId: 'belt-' + item.belt.id,
+                variantId: 'belt-' + item.belt.id,
+                sku: 'BELT-' + item.belt.id,
+                title: item.belt.name,
+                subtitle: 'Belt',
+                unitPrice: Number(item.unitPrice || 0),
+                total: Number(item.total || 0),
+                image: item.belt.image ? (typeof item.belt.image === 'string' ? item.belt.image : item.belt.image.url) : null,
+                qty: item.quantity,
+            };
+        }
+
         const variant = item.productVariant;
         const product = variant?.product;
         if (!variant || !product) return null;

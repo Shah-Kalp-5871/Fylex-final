@@ -1,6 +1,6 @@
 "use client";
 import React, { useState, useEffect, useCallback } from 'react';
-import { useRouter, useParams } from 'next/navigation';
+import { useRouter, useParams, useSearchParams } from 'next/navigation';
 import { useAdminData } from '@/context/AdminDataContext';
 import MediaPickerModal from '@/components/admin/MediaPickerModal';
 import * as api from '@/services/adminApi';
@@ -22,6 +22,7 @@ const EditProductPage = () => {
     const categories = data.categories || [];
     const taxClasses = data.taxClasses || [];
     const [tags, setTags] = useState([]);
+    const [belts, setBelts] = useState([]);
 
     const [processing, setProcessing] = useState(true);
     const [submitting, setSubmitting] = useState(false);
@@ -47,15 +48,94 @@ const EditProductPage = () => {
         mistColor: '#f8fafc',
         videoUrl: '',
         discoverHeroBgImage: '',
-        isFeatured: false
+        isFeatured: false,
+        canSellBelts: false,
+        beltIds: []
     });
 
     const [categoryDetails, setCategoryDetails] = useState(null);
-    const [activeTab, setActiveTab] = useState('basic');
+    const searchParams = useSearchParams();
+    const initialStep = searchParams?.get('step') || 'basic';
+    const [activeTab, setActiveTab] = useState(initialStep);
     const [selectedAttributeValues, setSelectedAttributeValues] = useState({}); // attrId: [valIds]
     const [variants, setVariants] = useState([]);
     const [pickerTarget, setPickerTarget] = useState(null); // 'primary' | 'gallery' | {variantIndex, type}
     const [variantImageModal, setVariantImageModal] = useState(null); // { index, name }
+
+    const [isInitialized, setIsInitialized] = useState(false);
+    const [unlockedTabIndex, setUnlockedTabIndex] = useState(0);
+
+    useEffect(() => {
+        if (!productId || processing) return;
+        
+        const savedDraft = localStorage.getItem(`draft_edit_${productId}`);
+        if (savedDraft && !isInitialized) {
+            try {
+                const parsed = JSON.parse(savedDraft);
+                if (parsed.form && parsed.form.name) {
+                    setForm(parsed.form);
+                    if (parsed.variants) setVariants(parsed.variants);
+                    if (parsed.selectedAttributeValues) setSelectedAttributeValues(parsed.selectedAttributeValues);
+                }
+            } catch (e) {}
+        }
+        setIsInitialized(true);
+    }, [productId, processing]);
+
+    useEffect(() => {
+        if (isInitialized && !processing) {
+            localStorage.setItem(`draft_edit_${productId}`, JSON.stringify({ form, variants, selectedAttributeValues }));
+        }
+    }, [form, variants, selectedAttributeValues, isInitialized, processing, productId]);
+
+    const validateStep = (step, silent = false) => {
+        switch (step) {
+            case 'basic':
+                if (!form.name || !form.slug || !form.categoryId || (form.productType === 'simple' && !form.price)) {
+                    if (!silent) toast.error('Please fill Name, Slug, Category, and Price (if simple) in Basic Info.');
+                    return false;
+                }
+                return true;
+            case 'story':
+                if (!form.shortDesc) {
+                    if (!silent) toast.error('Please fill Short Description in Story & Details.');
+                    return false;
+                }
+                return true;
+            case 'taxonomy':
+                if (!form.categoryId) {
+                    if (!silent) toast.error('Please select a Category in Taxonomy.');
+                    return false;
+                }
+                return true;
+            case 'theme':
+                return true;
+            case 'variants':
+                return true;
+            default:
+                return true;
+        }
+    };
+
+    const handleTabChange = (targetTab) => {
+        const tabs = ['basic', 'story', 'taxonomy', 'theme', 'variants'];
+        const targetIndex = tabs.indexOf(targetTab);
+        const currentIndex = tabs.indexOf(activeTab);
+
+        if (targetIndex <= currentIndex) {
+            setActiveTab(targetTab);
+            return;
+        }
+
+        for (let i = 0; i < targetIndex; i++) {
+            if (!validateStep(tabs[i])) {
+                return;
+            }
+        }
+        setActiveTab(targetTab);
+    };
+
+
 
     const moveGalleryImage = (index, direction) => {
         const newGallery = [...form.gallery];
@@ -86,12 +166,14 @@ const EditProductPage = () => {
         setProcessing(true);
         
         try {
-            const [prodRes, tagsRes] = await Promise.all([
+            const [prodRes, tagsRes, beltsRes] = await Promise.all([
                 api.getProduct(productId),
-                api.getTags()
+                api.getTags(),
+                api.getBelts()
             ]);
 
             if (tagsRes.success) setTags(tagsRes.data);
+            if (beltsRes.success) setBelts(beltsRes.data);
 
             if (prodRes.success) {
                 const p = prodRes.data;
@@ -144,8 +226,36 @@ const EditProductPage = () => {
                     specifications: p.specifications?.reduce((acc, s) => {
                         acc[s.specificationId.toString()] = s.specificationValueId ? s.specificationValueId.toString() : s.value;
                         return acc;
-                    }, {}) || {}
+                    }, {}) || {},
+                    beltIds: p.productBelts?.map(b => b.beltId.toString()) || [],
+                    canSellBelts: p.productBelts?.length > 0
                 }));
+
+                // Calculate highest unlocked tab based on saved data
+                let maxUnlocked = 0;
+                
+                const validateSavedData = (stepIndex, data) => {
+                    switch (stepIndex) {
+                        case 0: return !!(data.name && data.slug && data.mainCategoryId);
+                        case 1: return !!(data.shortDescription || data.description);
+                        case 2: return !!(data.mainCategoryId && data.productBelts?.length > 0);
+                        case 3: return !!(data.bgColor && data.textColor);
+                        case 4: return !!(data.variants && data.variants.length > 0);
+                        default: return false;
+                    }
+                };
+
+                for (let i = 0; i < 5; i++) {
+                    if (validateSavedData(i, p)) {
+                        maxUnlocked = i + 1;
+                    } else {
+                        break;
+                    }
+                }
+                // Don't auto-unlock just because data exists. The user explicitly wants
+                // manual progression. But on reload, we must restore where they were.
+                // maxUnlocked calculates the highest sequentially completed step.
+                setUnlockedTabIndex(Math.min(maxUnlocked, 4));
 
                 // 2. Fetch Category Details
                 if (p.mainCategoryId) {
@@ -373,11 +483,21 @@ const EditProductPage = () => {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        if (!form.name || !form.categoryId) return toast.error("Please fill required fields.");
+        
+        // Ensure current step is valid before saving
+        if (!validateStep(activeTab)) return;
+
+        // Automatically set status to active if finalizing step 5 and currently draft
+        let submitStatus = form.status;
+        if (activeTab === 'variants' && form.status === 'draft') {
+            submitStatus = 'active';
+        }
 
         setSubmitting(true);
+        const { canSellBelts, ...formData } = form;
         const payload = {
-            ...form,
+            ...formData,
+            status: submitStatus,
             shortDescription: form.shortDesc,
             videoUrl: form.videoUrl,
             discoverHeroBgImage: form.discoverHeroBgImage,
@@ -395,7 +515,8 @@ const EditProductPage = () => {
             heroImageId: form.heroImage?.id,
             galleryIds: form.gallery.map(g => g.id),
             images: [form.heroImage?.url, ...form.gallery.map(g => g.url)].filter(Boolean),
-            specifications: Object.entries(form.specifications).map(([id, val]) => {
+            beltIds: form.canSellBelts ? form.beltIds : [],
+            specifications: Object.entries(form.specifications || {}).map(([id, val]) => {
                 const specItem = categoryDetails?.specGroups?.flatMap(sg => sg.specGroup.specifications).find(s => s.specification.id.toString() === id);
                 const isDropdown = specItem?.specification.type === 'select';
                 return {
@@ -421,8 +542,19 @@ const EditProductPage = () => {
         const success = await updateRecord('products', productId, payload, api.updateProduct);
         setSubmitting(false);
         if (success) {
-            toast.success("Product updated successfully!");
-            router.push('/admin/products');
+            const tabs = ['basic', 'story', 'taxonomy', 'theme', 'variants'];
+            const currentIndex = tabs.indexOf(activeTab);
+            
+            if (currentIndex < tabs.length - 1) {
+                toast.success("Progress saved! Moving to next step...");
+                const nextTab = tabs[currentIndex + 1];
+                setUnlockedTabIndex(prev => Math.max(prev, currentIndex + 1));
+                setActiveTab(nextTab);
+                router.push(`/admin/products/edit/${productId}?step=${nextTab}`, { scroll: false });
+            } else {
+                toast.success("Product fully updated and finalized!");
+                router.push('/admin/products');
+            }
         }
     };
 
@@ -430,35 +562,49 @@ const EditProductPage = () => {
 
     return (
         <div className="!mx-auto !px-1 !py-1">
-            <div className="!mb-1">
+            <div className="!mb-1 flex justify-between items-end">
                 <PageHeader title="Edit Product" />
             </div>
 
-            <form onSubmit={handleSubmit} className="!space-y-2">
+            <div className="!space-y-2">
                 <div className="bg-white rounded-xl border border-gray-200 overflow-hidden shadow-sm">
                     <div className="flex flex-col md:flex-row min-h-[600px]">
                         {/* Sidebar Tabs */}
                         <div className="w-full md:w-50 bg-gray-50 border-r border-gray-200 !px-2">
                             {[
-                                { id: 'basic', label: 'Basic Info', icon: 'fa-info-circle' },
-                                { id: 'story', label: 'Story & Copy', icon: 'fa-align-left' },
-                                { id: 'taxonomy', label: 'Taxonomy', icon: 'fa-tags' },
-                                { id: 'theme', label: 'Visual Theme', icon: 'fa-palette' },
-                                { id: 'variants', label: 'Variants', icon: 'fa-cubes' }
-                            ].map(tab => (
+                                { id: 'basic', label: 'Step 1: Basic Info', icon: 'fa-info-circle' },
+                                { id: 'story', label: 'Step 2: Story & Copy', icon: 'fa-align-left' },
+                                { id: 'taxonomy', label: 'Step 3: Taxonomy', icon: 'fa-tags' },
+                                { id: 'theme', label: 'Step 4: Visual Theme', icon: 'fa-palette' },
+                                { id: 'variants', label: 'Step 5: Variants', icon: 'fa-cubes' }
+                            ].map((tab, idx) => {
+                                const isLocked = idx > unlockedTabIndex;
+
+                                return (
                                 <button
                                     key={tab.id}
                                     type="button"
-                                    onClick={() => setActiveTab(tab.id)}
-                                    className={`w-full flex items-center gap-3 !px-2 !py-5 rounded-lg text-sm font-semibold transition-all ${activeTab === tab.id
-                                        ? 'bg-indigo-600 text-white shadow-md'
-                                        : 'text-gray-600 hover:bg-gray-100'
-                                        }`}
+                                    onClick={() => {
+                                        if (isLocked) return;
+                                        setActiveTab(tab.id);
+                                        router.push(`/admin/products/edit/${productId}?step=${tab.id}`, { scroll: false });
+                                    }}
+                                    className={`w-full flex items-center justify-between !px-2 !py-5 rounded-lg text-sm font-semibold transition-all ${
+                                        activeTab === tab.id
+                                            ? 'bg-indigo-600 text-white shadow-md'
+                                            : isLocked
+                                            ? 'text-gray-400 opacity-60 cursor-not-allowed bg-gray-50'
+                                            : 'text-gray-600 hover:bg-gray-100'
+                                    }`}
                                 >
-                                    <i className={`fas ${tab.icon} w-5`}></i>
-                                    {tab.label}
+                                    <div className="flex items-center gap-3">
+                                        <i className={`fas ${tab.icon} w-5`}></i>
+                                        {tab.label}
+                                    </div>
+                                    {isLocked && <i className="fas fa-lock text-gray-300"></i>}
                                 </button>
-                            ))}
+                                );
+                            })}
                         </div>
 
                         {/* Tab Content */}
@@ -557,6 +703,53 @@ const EditProductPage = () => {
                                                     </button>
                                                 ))}
                                             </div>
+                                        </div>
+
+                                        {/* Belts Configuration */}
+                                        <div className="md:col-span-2 border border-gray-200 rounded-xl p-4 bg-gray-50/50">
+                                            <div className="flex items-center gap-2 mb-4">
+                                                <input 
+                                                    type="checkbox" 
+                                                    id="canSellBelts" 
+                                                    name="canSellBelts" 
+                                                    checked={form.canSellBelts} 
+                                                    onChange={handleChange} 
+                                                    className="w-5 h-5 rounded text-indigo-600 focus:ring-indigo-500 cursor-pointer"
+                                                />
+                                                <label htmlFor="canSellBelts" className="text-sm font-bold text-gray-900 cursor-pointer">
+                                                    Allow customers to buy additional belts for this watch
+                                                </label>
+                                            </div>
+                                            
+                                            {form.canSellBelts && (
+                                                <div className="animate-in fade-in slide-in-from-top-2 duration-300">
+                                                    <label className="block text-sm font-medium text-gray-700 !mb-2">Select Compatible Belts</label>
+                                                    {belts.length === 0 ? (
+                                                        <p className="text-sm text-gray-500 italic">No belts found. Please create belts in the Belts section first.</p>
+                                                    ) : (
+                                                        <div className="flex flex-wrap gap-2">
+                                                            {belts.map(belt => (
+                                                                <button
+                                                                    key={belt.id}
+                                                                    type="button"
+                                                                    onClick={() => setForm(prev => ({
+                                                                        ...prev,
+                                                                        beltIds: prev.beltIds.includes(belt.id.toString())
+                                                                            ? prev.beltIds.filter(id => id !== belt.id.toString())
+                                                                            : [...prev.beltIds, belt.id.toString()]
+                                                                    }))}
+                                                                    className={`!px-3 !py-1 rounded-lg text-xs font-medium transition-all ${form.beltIds.includes(belt.id.toString())
+                                                                        ? 'bg-indigo-600 text-white shadow-sm border border-indigo-600'
+                                                                        : 'bg-white text-gray-600 border border-gray-200 hover:border-indigo-400'
+                                                                        }`}
+                                                                >
+                                                                    {belt.name} (Rs. {belt.price})
+                                                                </button>
+                                                            ))}
+                                                        </div>
+                                                    )}
+                                                </div>
+                                            )}
                                         </div>
 
                                          {/* Default Product Media */}
@@ -883,22 +1076,39 @@ const EditProductPage = () => {
                         <div className="flex gap-4">
                             <button
                                 type="button"
-                                onClick={() => router.push('/admin/products')}
-                                className="!px-8 !py-4 bg-white text-gray-700 border border-gray-300 rounded-lg font-bold text-sm hover:bg-gray-50 transition-all shadow-sm"
+                                onClick={() => {
+                                    const tabs = ['basic', 'story', 'taxonomy', 'theme', 'variants'];
+                                    const currentIndex = tabs.indexOf(activeTab);
+                                    if (currentIndex > 0) handleTabChange(tabs[currentIndex - 1]);
+                                }}
+                                className={`!px-6 !py-3 border border-gray-300 rounded-lg text-gray-700 font-bold hover:bg-gray-50 transition-all ${activeTab === 'basic' ? 'invisible' : ''}`}
                             >
-                                Discard
+                                <i className="fas fa-arrow-left mr-2"></i> Previous Step
                             </button>
-                            <button
-                                type="submit"
-                                disabled={submitting}
-                                className="!px-8 !py-4 bg-indigo-600 text-white rounded-lg font-bold text-sm transition-all shadow-lg disabled:opacity-50 disabled:cursor-not-allowed flex items-center gap-2"
-                            >
-                                {submitting ? <><i className="fas fa-spinner fa-spin"></i> Processing...</> : <><i className="fas fa-check-circle"></i> Finalize Changes</>}
-                            </button>
+                            
+                            {activeTab === 'variants' ? (
+                                <button
+                                    type="button"
+                                    onClick={handleSubmit}
+                                    disabled={submitting}
+                                    className="!px-8 !py-4 bg-indigo-600 text-white rounded-lg font-bold text-sm transition-all shadow-lg disabled:opacity-50 flex items-center gap-2"
+                                >
+                                    {submitting ? <><i className="fas fa-spinner fa-spin"></i> Processing...</> : <><i className="fas fa-check-circle"></i> Save & Activate Product</>}
+                                </button>
+                            ) : (
+                                <button
+                                    type="button"
+                                    onClick={handleSubmit}
+                                    disabled={submitting}
+                                    className="!px-8 !py-4 bg-gray-900 text-white rounded-lg font-bold text-sm hover:bg-gray-800 transition-all shadow-md disabled:opacity-50 flex items-center gap-2"
+                                >
+                                    {submitting ? <><i className="fas fa-spinner fa-spin"></i> Processing...</> : <>Save & Continue to Next Step <i className="fas fa-arrow-right ml-2"></i></>}
+                                </button>
+                            )}
                         </div>
                     </div>
                 </div>
-            </form>
+            </div>
 
             <MediaPickerModal
                 isOpen={!!pickerTarget}

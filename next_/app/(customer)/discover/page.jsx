@@ -33,6 +33,7 @@ function DiscoverContent() {
   const [activeSpecGroup, setActiveSpecGroup] = useState(null);
   const [activeSection, setActiveSection] = useState('hero');
   const [isAdded, setIsAdded] = useState(false);
+  const [addedBelts, setAddedBelts] = useState({});
   const lastScrollY = useRef(0);
   const heroRef = useRef(null);
 
@@ -106,7 +107,14 @@ function DiscoverContent() {
                   value: s.value
                 });
                 return acc;
-              }, {})
+              }, {}),
+              productBelts: p.productBelts?.map(pb => ({
+                id: pb.belt.id,
+                name: pb.belt.name,
+                price: pb.belt.price,
+                stock: pb.belt.stock,
+                image: pb.belt.image ? getFileUrl(pb.belt.image.fileName) : null
+              })) || []
             };
           });
           setProductsData(mapped);
@@ -1923,6 +1931,8 @@ function DiscoverContent() {
                     </div>
                   )}
                 </div>
+
+
               </div>
             </div>
           </div>
@@ -2073,6 +2083,98 @@ function DiscoverContent() {
             </div>
           </div>
         </section>
+
+        {/* ── COMPATIBLE BELTS SECTION ── */}
+        {product.productBelts?.length > 0 && (
+          <section style={{ background: '#f5f5f3', padding: '80px 0 100px' }}>
+            <div style={{ maxWidth: '1200px', margin: '0 auto', padding: '0 40px' }}>
+              {/* Header */}
+              <div style={{ marginBottom: '56px' }}>
+                <p style={{ fontSize: '11px', fontWeight: 600, letterSpacing: '0.2em', textTransform: 'uppercase', color: '#888', marginBottom: '12px' }}>Compatible Straps</p>
+                <h2 style={{ fontSize: 'clamp(28px, 4vw, 48px)', fontWeight: 300, fontFamily: 'Georgia, serif', color: '#111', letterSpacing: '-0.02em', lineHeight: 1.1 }}>
+                  Complete the Look
+                </h2>
+              </div>
+
+              {/* Grid */}
+              <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(260px, 1fr))', gap: '24px' }}>
+                {product.productBelts.map(belt => (
+                  <div key={belt.id} className="group" style={{ cursor: 'default' }}>
+                    {/* Image box */}
+                    <div
+                      style={{
+                        background: '#ebebeb',
+                        borderRadius: '4px',
+                        overflow: 'hidden',
+                        position: 'relative',
+                        paddingBottom: '120%',
+                        marginBottom: '20px',
+                        transition: 'background 0.3s',
+                      }}
+                    >
+                      {belt.image ? (
+                        <img
+                          src={belt.image}
+                          alt={belt.name}
+                          style={{
+                            position: 'absolute',
+                            inset: 0,
+                            width: '100%',
+                            height: '100%',
+                            objectFit: 'contain',
+                            padding: '32px',
+                            transition: 'transform 0.6s cubic-bezier(0.25,0.46,0.45,0.94)',
+                          }}
+                          className="group-hover:scale-105"
+                        />
+                      ) : (
+                        <div style={{
+                          position: 'absolute', inset: 0,
+                          display: 'flex', alignItems: 'center', justifyContent: 'center',
+                          color: '#aaa', fontSize: '12px', textTransform: 'uppercase', letterSpacing: '0.1em'
+                        }}>No Image</div>
+                      )}
+                    </div>
+
+                    {/* Info */}
+                    <div style={{ paddingBottom: '4px' }}>
+                      <h3 style={{ fontSize: '20px', fontWeight: 400, fontFamily: 'Georgia, serif', color: '#111', lineHeight: 1.25, marginBottom: '8px' }}>{belt.name}</h3>
+                      <p style={{ fontSize: '14px', fontWeight: 500, letterSpacing: '0.05em', color: '#888', marginBottom: '20px' }}>₹{(belt.price || 0).toLocaleString()}</p>
+
+                      <button
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          if (!addedBelts[belt.id]) {
+                            addToCart(`belt-${belt.id}`, 1, { title: belt.name, price: belt.price, image: belt.image });
+                            setAddedBelts(prev => ({ ...prev, [belt.id]: true }));
+                          }
+                        }}
+                        style={{
+                          display: 'inline-block',
+                          padding: '14px 32px',
+                          fontSize: '11px',
+                          fontWeight: 600,
+                          letterSpacing: '0.15em',
+                          textTransform: 'uppercase',
+                          border: addedBelts[belt.id] ? '1px solid #111' : '1px solid #111',
+                          background: addedBelts[belt.id] ? '#111' : 'transparent',
+                          color: addedBelts[belt.id] ? '#fff' : '#111',
+                          cursor: addedBelts[belt.id] ? 'default' : 'pointer',
+                          transition: 'all 0.25s',
+                          borderRadius: '2px',
+                        }}
+                        onMouseEnter={(e) => { if (!addedBelts[belt.id]) { e.currentTarget.style.background = '#111'; e.currentTarget.style.color = '#fff'; } }}
+                        onMouseLeave={(e) => { if (!addedBelts[belt.id]) { e.currentTarget.style.background = 'transparent'; e.currentTarget.style.color = '#111'; } }}
+                      >
+                        {addedBelts[belt.id] ? '✓ Added to Cart' : 'Add to Cart'}
+                      </button>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </section>
+        )}
       </div>
 
       {/* ═══ ELEGANT LIGHT INFO MODAL ═══ */}

@@ -30,7 +30,8 @@ export class OrderService {
       include: {
         items: {
           include: {
-            productVariant: { include: { product: true } }
+            productVariant: { include: { product: true } },
+            belt: true
           }
         },
         customer: true,
@@ -88,7 +89,10 @@ export class OrderService {
       // Calculate Total Weight (Default to 0.5kg per watch if not specified)
       let totalWeight = 0;
       for (const item of cart.items) {
-        const itemWeight = item.productVariant.weight ? Number(item.productVariant.weight) : 0.4;
+        let itemWeight = 0.4;
+        if (item.productVariant) {
+          itemWeight = item.productVariant.weight ? Number(item.productVariant.weight) : 0.4;
+        }
         totalWeight += itemWeight * item.quantity;
       }
 
@@ -205,10 +209,19 @@ export class OrderService {
         await tx.orderItem.create({
           data: {
             order: { connect: { id: order.id } },
-            product: { connect: { id: item.productVariant.productId } },
-            productVariant: { connect: { id: item.productVariantId } },
-            productName: item.productVariant.product?.name || 'Product',
-            sku: item.productVariant.sku || 'SKU',
+            ...(item.productVariantId ? {
+              product: { connect: { id: item.productVariant?.productId } },
+              productVariant: { connect: { id: item.productVariantId } },
+              productName: item.productVariant?.product?.name || 'Product',
+              sku: item.productVariant?.sku || 'SKU',
+            } : item.beltId ? {
+              belt: { connect: { id: item.beltId } },
+              productName: item.belt?.name || 'Belt',
+              sku: 'BELT-' + item.beltId,
+            } : {
+              productName: 'Unknown Item',
+              sku: 'UNKNOWN',
+            }),
             quantity: item.quantity,
             unitPrice: item.unitPrice,
             subtotal: item.total,
@@ -613,7 +626,10 @@ export class OrderService {
 
     let totalWeight = 0;
     for (const item of cart.items) {
-      const itemWeight = item.productVariant.weight ? Number(item.productVariant.weight) : 0.4;
+      let itemWeight = 0.4;
+      if (item.productVariant) {
+        itemWeight = item.productVariant.weight ? Number(item.productVariant.weight) : 0.4;
+      }
       totalWeight += itemWeight * item.quantity;
     }
 

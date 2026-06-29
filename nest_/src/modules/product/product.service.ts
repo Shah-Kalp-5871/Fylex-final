@@ -289,6 +289,19 @@ export class ProductService {
             }
           }
         }
+        // Handle Belts
+        if (dto.beltIds && dto.beltIds.length > 0) {
+          const beltData = dto.beltIds
+            .map((beltId: any) => ({
+              productId,
+              beltId: this.safeNumber(beltId, 'beltId'),
+            }))
+            .filter((b: any) => b.beltId !== null);
+          
+          if (beltData.length > 0) {
+            await tx.productBelt.createMany({ data: beltData as any });
+          }
+        }
 
         return { ...product, images: this.parseJson(product.images) };
       });
@@ -429,6 +442,15 @@ export class ProductService {
               media: true
             }
           },
+          productBelts: {
+            include: {
+              belt: {
+                include: {
+                  image: true
+                }
+              }
+            }
+          },
         },
       }),
     ]);
@@ -546,6 +568,15 @@ export class ProductService {
         productMedia: {
           include: {
             media: true
+          }
+        },
+        productBelts: {
+          include: {
+            belt: {
+              include: {
+                image: true
+              }
+            }
           }
         },
         orderItems: {
@@ -890,6 +921,22 @@ export class ProductService {
             const variantMedia = Array.from(mediaMap.values());
             if (variantMedia.length > 0) {
               await tx.variantImage.createMany({ data: variantMedia });
+            }
+          }
+        }
+        // Handle Belts
+        if (dto.beltIds !== undefined) {
+          await tx.productBelt.deleteMany({ where: { productId } });
+          if (dto.beltIds.length > 0) {
+            const beltData = dto.beltIds
+              .map((beltId: any) => ({
+                productId,
+                beltId: this.safeNumber(beltId, 'beltId'),
+              }))
+              .filter((b: any) => b.beltId !== null);
+            
+            if (beltData.length > 0) {
+              await tx.productBelt.createMany({ data: beltData as any });
             }
           }
         }

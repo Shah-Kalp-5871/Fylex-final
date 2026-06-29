@@ -214,6 +214,10 @@ export class CreateProductDto {
   tagIds?: any[];
 
   @IsOptional()
+  @IsArray()
+  beltIds?: any[];
+
+  @IsOptional()
   taxClassId?: number | string;
 }
 

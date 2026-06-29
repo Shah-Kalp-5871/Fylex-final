@@ -148,6 +148,9 @@ export const saveSettings = (data) => post('/system/settings', data);
 // ─── Tags ─────────────────────────────────────────────────────
 export const getTags = () => get('/tags');
 export const createTag = (data) => post('/tags', data);
+
+// ─── Belts ────────────────────────────────────────────────────
+export const getBelts = () => get('/belts');
 export const updateTag = (id, data) => put(`/tags/${id}`, data);
 export const deleteTag = (id) => del(`/tags/${id}`);
 

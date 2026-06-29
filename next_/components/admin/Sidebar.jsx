@@ -35,6 +35,7 @@ const navItems = [
       { title: 'Attributes', path: '/admin/products/attributes' },
       { title: 'Specifications', path: '/admin/products/specifications' },
       { title: 'Tags', path: '/admin/products/tags' },
+      { title: 'Belts', path: '/admin/belts' },
     ],
   },
   {

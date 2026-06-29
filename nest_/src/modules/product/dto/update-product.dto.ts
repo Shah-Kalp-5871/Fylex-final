@@ -204,6 +204,10 @@ export class UpdateProductDto {
   tagIds?: any[];
 
   @IsOptional()
+  @IsArray()
+  beltIds?: any[];
+
+  @IsOptional()
   @IsString()
   shortDesc?: string;
 

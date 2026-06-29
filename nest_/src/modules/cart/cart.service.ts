@@ -45,7 +45,8 @@ export class CartService {
                   } 
                 } 
               } 
-            } 
+            },
+            belt: { include: { image: true } }
           },
           orderBy: [
             { createdAt: 'asc' },
@@ -84,7 +85,8 @@ export class CartService {
                   } 
                 } 
               } 
-            } 
+            },
+            belt: { include: { image: true } }
           },
           orderBy: [
             { createdAt: 'asc' },
@@ -120,7 +122,8 @@ export class CartService {
                   } 
                 } 
               } 
-            } 
+            },
+            belt: { include: { image: true } }
           },
           orderBy: [
             { createdAt: 'asc' },
@@ -158,7 +161,8 @@ export class CartService {
                   } 
                 } 
               } 
-            } 
+            },
+            belt: { include: { image: true } }
           },
           orderBy: { createdAt: 'asc' }
         } 
@@ -198,6 +202,34 @@ export class CartService {
     try {
       if (!dto.variantId) throw new BadRequestException('variantId is mandatory for all cart operations');
       const cart = await this.getOrCreateCart(customerId);
+      const isBelt = String(dto.variantId).startsWith('belt-');
+
+      if (isBelt) {
+        const beltId = Number(String(dto.variantId).replace('belt-', ''));
+        const belt = await this.prisma.belt.findUnique({ where: { id: beltId } });
+        if (!belt) throw new NotFoundException('Belt not found');
+
+        const existingItem = (cart.items as any[]).find((item) => item.beltId === beltId);
+        if (existingItem) {
+          return this.updateItem(customerId, existingItem.id.toString(), {
+            userId: customerId,
+            quantity: existingItem.quantity + dto.quantity,
+          });
+        }
+
+        await this.prisma.cartItem.create({
+          data: {
+            cart: { connect: { id: cart.id } },
+            belt: { connect: { id: beltId } },
+            quantity: dto.quantity,
+            unitPrice: belt.price || Number(0),
+            total: Number((belt.price || 0) * dto.quantity),
+          },
+        });
+        await this.updateCartTotals(cart.id);
+        return this.getCart(customerId);
+      }
+
       const variantId = Number(dto.variantId);
 
       // Validate variant exists
@@ -264,13 +296,23 @@ export class CartService {
       throw new NotFoundException('Cart item not found');
     }
 
-    const variant = await this.prisma.productVariant.findUnique({
-      where: { id: item.productVariantId }
-    });
-    
-    if (variant && variant.manageStock) {
-      if (!variant.inStock || variant.qty < dto.quantity) {
-        throw new BadRequestException(`Not enough stock available. Maximum available is ${variant.qty}.`);
+    if (item.productVariantId) {
+      const variant = await this.prisma.productVariant.findUnique({
+        where: { id: item.productVariantId }
+      });
+      
+      if (variant && variant.manageStock) {
+        if (!variant.inStock || variant.qty < dto.quantity) {
+          throw new BadRequestException(`Not enough stock available. Maximum available is ${variant.qty}.`);
+        }
+      }
+    } else if (item.beltId) {
+      const belt = await this.prisma.belt.findUnique({
+        where: { id: item.beltId }
+      });
+      
+      if (belt && belt.stock < dto.quantity) {
+        throw new BadRequestException(`Not enough stock available. Maximum available is ${belt.stock}.`);
       }
     }
 
