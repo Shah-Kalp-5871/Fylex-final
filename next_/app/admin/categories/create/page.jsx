@@ -29,6 +29,15 @@ const AddCategoryPage = () => {
     });
 
     const [selectedSpecGroups, setSelectedSpecGroups] = useState([]);
+    const [specGroupsInitialized, setSpecGroupsInitialized] = useState(false);
+
+    useEffect(() => {
+        if (!specGroupsInitialized && allSpecGroups.length > 0) {
+            setSelectedSpecGroups(allSpecGroups.map(g => g.id));
+            setSpecGroupsInitialized(true);
+        }
+    }, [allSpecGroups, specGroupsInitialized]);
+
     const [selectedAttributes, setSelectedAttributes] = useState([]);
 
     const [specSearch, setSpecSearch] = useState('');

@@ -33,6 +33,15 @@ const EditCategoryPage = () => {
     });
 
     const [selectedSpecGroups, setSelectedSpecGroups] = useState([]);
+    const [specGroupsInitialized, setSpecGroupsInitialized] = useState(false);
+
+    useEffect(() => {
+        if (!specGroupsInitialized && allSpecGroups.length > 0 && !fetching) {
+            setSelectedSpecGroups(allSpecGroups.map(g => g.id));
+            setSpecGroupsInitialized(true);
+        }
+    }, [allSpecGroups, specGroupsInitialized, fetching]);
+
     const [selectedAttributes, setSelectedAttributes] = useState([]);
 
     const [specSearch, setSpecSearch] = useState('');
@@ -63,8 +72,9 @@ const EditCategoryPage = () => {
                     showInNav: cat.showInNav !== undefined ? cat.showInNav : 1
                 });
 
-                if (cat.specificationGroups) {
+                if (cat.specificationGroups && cat.specificationGroups.length > 0) {
                     setSelectedSpecGroups(cat.specificationGroups.map(g => g.id));
+                    setSpecGroupsInitialized(true);
                 }
 
                 if (cat.attributes) {

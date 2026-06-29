@@ -75,19 +75,11 @@ const CareStepsPage = () => {
       columns: [
         { title: 'STEP NO', field: 'stepNumber', width: 90, hozAlign: 'center', formatter: (cell) => `<span class="w-6 h-6 inline-flex items-center justify-center bg-indigo-100 text-indigo-700 rounded-full font-bold text-xs">${cell.getValue()}</span>` },
         { 
-          title: 'IMAGE', field: 'imageUrl', width: 80, hozAlign: 'center', headerSort: false,
+          title: 'IMAGE', field: 'imageUrl', width: 120, hozAlign: 'center', headerSort: false,
           formatter: (cell) => {
             const url = cell.getValue();
-            return url ? `<img src="${url}" class="w-10 h-10 object-cover rounded shadow-sm border border-slate-200" />` : `<div class="w-10 h-10 bg-slate-100 rounded flex items-center justify-center text-slate-300"><i class="fas fa-image"></i></div>`;
+            return url ? `<img src="${url}" class="w-16 h-16 object-cover rounded shadow-sm border border-slate-200" />` : `<div class="w-16 h-16 bg-slate-100 rounded flex items-center justify-center text-slate-300"><i class="fas fa-image"></i></div>`;
           }
-        },
-        { 
-          title: 'TITLE', field: 'title', minWidth: 200,
-          formatter: (cell) => `<div class="font-bold text-slate-800">${cell.getValue()}</div>`
-        },
-        { 
-          title: 'DESCRIPTION', field: 'description', minWidth: 350,
-          formatter: (cell) => `<div class="text-slate-500 text-sm whitespace-normal leading-snug line-clamp-2">${cell.getValue()}</div>`
         },
         {
           title: 'ACTIONS', headerSort: false, hozAlign: 'right', width: 120,
@@ -145,14 +137,14 @@ const CareStepsPage = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (!formData.productId) { setFormErrors({ productId: 'Product is required' }); return; }
-    if (!formData.title) { setFormErrors({ title: 'Title is required' }); return; }
-    if (!formData.description) { setFormErrors({ description: 'Description is required' }); return; }
 
     setSubmitting(true);
     const payload = {
       ...formData,
       productId: parseInt(formData.productId),
-      stepNumber: parseInt(formData.stepNumber) || 1
+      stepNumber: parseInt(formData.stepNumber) || 1,
+      title: formData.title || `Step ${formData.stepNumber || 1}`,
+      description: formData.description || '-'
     };
 
     try {
@@ -233,7 +225,7 @@ const CareStepsPage = () => {
                 error={formErrors.productId}
             />
 
-            <div className="grid grid-cols-2 gap-4">
+            <div className="grid grid-cols-1 gap-4">
                 <FormField 
                     label="Step Number *" 
                     name="stepNumber" 
@@ -242,28 +234,7 @@ const CareStepsPage = () => {
                     onChange={handleChange} 
                     required
                 />
-                <FormField 
-                    label="Title *" 
-                    name="title" 
-                    value={formData.title} 
-                    onChange={handleChange} 
-                    placeholder="e.g. Manual Winding" 
-                    required 
-                    error={formErrors.title}
-                />
             </div>
-
-            <FormField 
-                label="Description *" 
-                name="description" 
-                type="textarea"
-                rows={4}
-                value={formData.description} 
-                onChange={handleChange} 
-                placeholder="Explain the step..."
-                required
-                error={formErrors.description}
-            />
 
             <div className="border border-slate-200 rounded-xl p-4 bg-slate-50">
               <label className="block text-xs font-bold text-slate-700 uppercase tracking-widest mb-3">Step Image</label>

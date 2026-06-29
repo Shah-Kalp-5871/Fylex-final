@@ -196,25 +196,10 @@ export default function CareSupport() {
         .step-img-container { margin-top: 20px; }
         .step-img-container img { max-width: 250px; max-height: 250px; width: 100%; height: auto; object-fit: contain; border-radius: 8px; border: 1px solid rgba(255,255,255,0.1); }
         
-        .images-only-timeline { display: flex; flex-direction: column; align-items: center; gap: 50px; width: 100%; max-width: 600px; margin: 0 auto; position: relative; }
-        .images-only-timeline::before {
-          content: '';
-          position: absolute;
-          top: 0; bottom: 0;
-          left: 50%;
-          width: 2px;
-          background: rgba(255,255,255,0.15);
-          z-index: 0;
-          transform: translateX(-50%);
-        }
+        .images-only-timeline { display: flex; flex-direction: row; flex-wrap: wrap; justify-content: center; gap: 30px; width: 100%; max-width: 1000px; margin: 0 auto; }
         .image-only-item { text-align: center; position: relative; z-index: 1; display: flex; flex-direction: column; align-items: center; }
-        .image-only-img-wrapper { background: #000; padding: 10px 0; z-index: 1; }
+        .image-only-img-wrapper { background: #000; padding: 10px; z-index: 1; }
         .image-only-img-wrapper img { width: 100%; max-width: 300px; height: auto; object-fit: contain; border-radius: 8px; border: 1px solid rgba(255,255,255,0.1); }
-        .image-only-label { 
-          margin-top: 15px; background: #000; padding: 6px 16px; border-radius: 20px; 
-          border: 1px solid rgba(255,255,255,0.3); color: #fff; font-size: 12px; font-weight: 700; text-transform: uppercase; letter-spacing: 2px;
-          position: relative; z-index: 2;
-        }
 
         /* STATIC CARE CONTENT */
         .static-care-sect { background: #000; padding: 100px 8% 60px 8%; border-bottom: 1px solid rgba(255,255,255,0.05); }
@@ -348,48 +333,18 @@ export default function CareSupport() {
               <p>{purchasedProductIds.has(selectedProductId) ? 'Your personalized care instructions' : 'Visual guide for this collection'}</p>
             </div>
 
-            {purchasedProductIds.has(selectedProductId) ? (
-              // Full view for purchased items
-              <div className="time-content">
-                <div className="time-visual">
-                  <img
-                    src={selectedGroup.product?.heroImage || '/assets/fylex-watch-v2/white-gold.png'}
-                    alt={selectedGroup.product?.name}
-                  />
-                </div>
-                <div className="time-steps">
-                  {selectedGroup.steps.map((step, sIdx) => (
-                    <div key={sIdx} className="step-item">
-                      <div className="step-num">{step.stepNumber}</div>
-                      <div className="step-content">
-                        <h4>{step.title}</h4>
-                        <p>{step.description}</p>
-                        {step.imageUrl && (
-                          <div className="step-img-container">
-                            <img src={step.imageUrl} alt={step.title} />
-                          </div>
-                        )}
-                      </div>
-                    </div>
-                  ))}
-                </div>
-              </div>
-            ) : (
-              // Images only for non-purchased items
-              <div className="images-only-timeline">
-                {selectedGroup.steps.filter(s => s.imageUrl).map((step, sIdx) => (
-                  <div key={sIdx} className="image-only-item">
-                    <div className="image-only-img-wrapper">
-                      <img src={step.imageUrl} alt={`Step ${step.stepNumber}`} />
-                    </div>
-                    <div className="image-only-label">Step {step.stepNumber}</div>
+            <div className="images-only-timeline">
+              {selectedGroup.steps.filter(s => s.imageUrl).map((step, sIdx) => (
+                <div key={sIdx} className="image-only-item">
+                  <div className="image-only-img-wrapper">
+                    <img src={step.imageUrl} alt={`Step ${step.stepNumber}`} />
                   </div>
-                ))}
-                {selectedGroup.steps.filter(s => s.imageUrl).length === 0 && (
-                  <p className="text-center text-white opacity-50 w-full col-span-full bg-black z-10 py-4">Visuals coming soon</p>
-                )}
-              </div>
-            )}
+                </div>
+              ))}
+              {selectedGroup.steps.filter(s => s.imageUrl).length === 0 && (
+                <p className="text-center text-white opacity-50 w-full col-span-full bg-black z-10 py-4">Visuals coming soon</p>
+              )}
+            </div>
           </div>
         )}
       </section>
