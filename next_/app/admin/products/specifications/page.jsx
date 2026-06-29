@@ -412,7 +412,8 @@ const SpecificationManagement = () => {
         {activeTab === 'values' && (
           <button 
             onClick={() => setActiveTab('specs')} 
-            className="flex items-center gap-2 text-sm font-bold text-slate-500 hover:text-indigo-600 transition-colors bg-white px-4 py-2 rounded-xl border shadow-sm"
+            className="flex items-center text-sm font-bold text-slate-500 hover:text-indigo-600 transition-colors bg-white border shadow-sm"
+            style={{ padding: '8px 16px', gap: '8px', borderRadius: '12px' }}
           >
             <i className="fas fa-circle-left"></i> Specifications
           </button>
@@ -420,22 +421,32 @@ const SpecificationManagement = () => {
       </div>
 
       {activeTab === 'values' && selectedSpec && (
-        <div className="flex flex-wrap items-center gap-x-8 gap-y-4 p-5 bg-indigo-50/50 border border-indigo-100/50 rounded-2xl backdrop-blur-sm shadow-inner-sm">
-           <div className="metadata-item">
-             <i className="fas fa-code text-indigo-400 mr-2"></i>
-             <span className="text-slate-500 uppercase text-[10px] font-bold tracking-wider mr-1">Code:</span> 
+        <div 
+          className="flex flex-wrap items-center backdrop-blur-sm shadow-inner-sm"
+          style={{ 
+            padding: '20px', 
+            gap: '16px 32px', 
+            backgroundColor: 'rgba(238, 242, 255, 0.5)', 
+            borderColor: 'rgba(199, 210, 254, 0.5)', 
+            borderWidth: '1px', 
+            borderRadius: '16px' 
+          }}
+        >
+           <div className="metadata-item flex items-center">
+             <i className="fas fa-code text-indigo-400" style={{ marginRight: '8px' }}></i>
+             <span className="text-slate-500 uppercase text-[10px] font-bold tracking-wider" style={{ marginRight: '4px' }}>Code:</span> 
              <span className="font-mono font-bold text-slate-800">{selectedSpec.code}</span>
            </div>
-           <div className="w-px h-6 bg-indigo-200/50 hidden md:block"></div>
-           <div className="metadata-item">
-             <i className="fas fa-keyboard text-indigo-400 mr-2"></i>
-             <span className="text-slate-500 uppercase text-[10px] font-bold tracking-wider mr-1">Type:</span> 
+           <div className="w-px h-6 hidden md:block" style={{ backgroundColor: 'rgba(199, 210, 254, 0.5)' }}></div>
+           <div className="metadata-item flex items-center">
+             <i className="fas fa-keyboard text-indigo-400" style={{ marginRight: '8px' }}></i>
+             <span className="text-slate-500 uppercase text-[10px] font-bold tracking-wider" style={{ marginRight: '4px' }}>Type:</span> 
              <span className="font-bold text-slate-800">{selectedSpec.type}</span>
            </div>
-           <div className="w-px h-6 bg-indigo-200/50 hidden md:block"></div>
-           <div className="metadata-item">
-             <i className="fas fa-database text-indigo-400 mr-2"></i>
-             <span className="text-slate-500 uppercase text-[10px] font-bold tracking-wider mr-1">Data:</span> 
+           <div className="w-px h-6 hidden md:block" style={{ backgroundColor: 'rgba(199, 210, 254, 0.5)' }}></div>
+           <div className="metadata-item flex items-center">
+             <i className="fas fa-database text-indigo-400" style={{ marginRight: '8px' }}></i>
+             <span className="text-slate-500 uppercase text-[10px] font-bold tracking-wider" style={{ marginRight: '4px' }}>Data:</span> 
              <span className="font-bold text-slate-800">{specValues.length} registered values</span>
            </div>
         </div>

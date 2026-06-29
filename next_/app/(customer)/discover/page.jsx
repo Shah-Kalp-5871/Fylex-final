@@ -1256,19 +1256,20 @@ function DiscoverContent() {
           text-align: left;
         }
 
-        /* ═══════════ DARK/ELEGANT MODAL STYLES ═══════════ */
+        /* ═══════════ LIGHT GLASSMORPHISM MODAL STYLES ═══════════ */
         .cfg-modal-overlay {
           position: fixed;
           inset: 0;
-          background: rgba(0, 0, 0, 0.6);
-          backdrop-filter: blur(8px);
+          background: rgba(255, 255, 255, 0.4);
+          backdrop-filter: blur(12px);
+          -webkit-backdrop-filter: blur(12px);
           z-index: 9999;
           display: flex;
           align-items: center;
           justify-content: center;
           opacity: 0;
           visibility: hidden;
-          transition: all 0.3s ease;
+          transition: all 0.4s cubic-bezier(0.23, 1, 0.32, 1);
         }
         .cfg-modal-overlay.show {
           opacity: 1;
@@ -1283,36 +1284,53 @@ function DiscoverContent() {
           margin: auto;
           position: relative;
           overflow: hidden;
-          border-radius: 42px;
-          background: 
-            radial-gradient(circle at left center, rgba(255,185,60,.12), transparent 30%),
-            radial-gradient(circle at center, rgba(255,185,60,.06), transparent 40%),
-            radial-gradient(circle at right bottom, rgba(255,185,60,.1), transparent 30%),
-            linear-gradient(135deg, rgba(12,12,12,.95), rgba(2,2,2,.98));
-          backdrop-filter: blur(40px);
-          -webkit-backdrop-filter: blur(40px);
-          border: 1px solid rgba(255,220,140,.45);
-          box-shadow: 0 0 40px rgba(255,190,70,.15), 0 0 90px rgba(255,190,70,.08), inset 0 1px 0 rgba(255,255,255,.08);
+          border-radius: 32px;
+          background: linear-gradient(135deg, rgba(255, 255, 255, 0.45) 0%, rgba(255, 255, 255, 0.15) 100%);
+          backdrop-filter: blur(60px);
+          -webkit-backdrop-filter: blur(60px);
+          border: 1px solid rgba(255, 255, 255, 0.7);
+          border-bottom: 1px solid rgba(255, 255, 255, 0.3);
+          border-right: 1px solid rgba(255, 255, 255, 0.3);
+          box-shadow: 0 30px 80px rgba(0,0,0,0.1), inset 0 1px 0 rgba(255,255,255,0.8);
           display: flex;
           flex-direction: column;
-          transform: translateY(20px);
-          transition: all 0.4s cubic-bezier(0.23, 1, 0.32, 1);
-          animation: goldFlow 10s linear infinite;
+          transform: translateY(20px) scale(0.98);
+          transition: all 0.5s cubic-bezier(0.23, 1, 0.32, 1);
         }
 
-        @keyframes goldFlow {
-          0% { background-position: 0% 50%; }
-          50% { background-position: 100% 50%; }
-          100% { background-position: 0% 50%; }
+        .cfg-modal-box::before {
+          content: '';
+          position: absolute;
+          top: -30%;
+          left: -10%;
+          width: 70%;
+          height: 70%;
+          background: radial-gradient(circle, rgba(196,163,90,0.2) 0%, transparent 60%);
+          border-radius: 50%;
+          z-index: 0;
+          pointer-events: none;
+        }
+
+        .cfg-modal-box::after {
+          content: '';
+          position: absolute;
+          bottom: -20%;
+          right: -10%;
+          width: 80%;
+          height: 80%;
+          background: radial-gradient(circle, rgba(16,185,129,0.15) 0%, transparent 60%);
+          border-radius: 50%;
+          z-index: 0;
+          pointer-events: none;
         }
 
         .cfg-modal-overlay.show .cfg-modal-box {
-          transform: translateY(0);
+          transform: translateY(0) scale(1);
         }
 
         .cfg-modal-header {
           padding: 36px 40px;
-          border-bottom: 1px solid transparent;
+          border-bottom: 1px solid rgba(0,0,0,0.06);
           display: flex;
           justify-content: space-between;
           align-items: center;
@@ -1327,32 +1345,35 @@ function DiscoverContent() {
           left: 0;
           width: 100%;
           height: 1px;
-          background: rgba(255,220,150,.2);
+          background: linear-gradient(90deg, transparent, rgba(0,0,0,0.03), transparent);
         }
 
         .cfg-modal-title {
           font-family: 'Inter', sans-serif;
           font-size: 26px;
-          font-weight: 500;
-          letter-spacing: -1px;
-          color: #ffffff;
+          font-weight: 600;
+          letter-spacing: -0.02em;
+          color: #1a1a1a;
           margin: 0;
         }
 
         .cfg-modal-close {
-          background: none;
-          border: none;
-          font-size: 32px;
+          background: rgba(0,0,0,0.04);
+          border: 1px solid rgba(0,0,0,0.05);
+          width: 44px;
+          height: 44px;
+          border-radius: 50%;
+          font-size: 20px;
           cursor: pointer;
-          color: rgba(255,240,210,.8);
-          transition: color 0.3s;
+          color: #1a1a1a;
+          transition: all 0.3s ease;
           display: flex;
           align-items: center;
           justify-content: center;
-          padding: 4px;
         }
         .cfg-modal-close:hover {
-          color: white;
+          background: rgba(0,0,0,0.08);
+          transform: rotate(90deg);
         }
 
         .cfg-modal-content {
@@ -1370,59 +1391,46 @@ function DiscoverContent() {
         }
         .cfg-modal-content::-webkit-scrollbar-track {
           background: transparent;
-          border-left: 1px solid rgba(255, 255, 255, 0.05);
         }
         .cfg-modal-content::-webkit-scrollbar-thumb {
-          background-color: #444444;
+          background-color: rgba(0,0,0,0.15);
           border-radius: 4px;
         }
         .cfg-modal-content::-webkit-scrollbar-thumb:hover {
-          background-color: #666666;
+          background-color: rgba(0,0,0,0.25);
         }
 
         .cfg-combo-item {
           width: 90%;
           height: 120px;
           border-radius: 24px;
-          background: rgba(255,255,255,.04);
-          border: none;
-          backdrop-filter: blur(30px);
-          -webkit-backdrop-filter: blur(30px);
-          box-shadow: 0 0 40px rgba(255,200,90,.1), inset 0 1px 0 rgba(255,255,255,.06);
-          margin: 30px auto;
+          background: rgba(255,255,255,0.6);
+          border: 1px solid rgba(255,255,255,0.8);
+          backdrop-filter: blur(20px);
+          -webkit-backdrop-filter: blur(20px);
+          box-shadow: 0 10px 30px rgba(0,0,0,0.03), inset 0 2px 4px rgba(255,255,255,0.5);
+          margin: 20px auto;
           display: flex;
           align-items: center;
           gap: 18px;
           padding: 0 30px;
           position: relative;
           cursor: pointer;
-          transition: transform 0.3s ease, box-shadow 0.3s ease;
+          transition: all 0.4s cubic-bezier(0.23, 1, 0.32, 1);
           overflow: hidden;
         }
 
-        .cfg-combo-item::after {
-          content: '';
-          position: absolute;
-          left: -15px;
-          top: 25px;
-          width: 45px;
-          height: 60px;
-          filter: blur(30px);
-          background: rgba(255,190,80,.4);
-          z-index: 0;
-          pointer-events: none;
-        }
-
         .cfg-combo-item:hover {
-          transform: translateY(-6px);
-          box-shadow: 0 0 60px rgba(255,210,100,.18), 0 0 120px rgba(255,210,100,.1);
+          transform: translateY(-4px) scale(1.01);
+          background: rgba(255,255,255,0.9);
+          box-shadow: 0 20px 40px rgba(0,0,0,0.06), inset 0 2px 4px rgba(255,255,255,0.8);
         }
 
         .cfg-combo-img-wrap {
           width: 80px;
           height: 80px;
-          background: rgba(255,255,255,.05);
-          border: 1px solid rgba(255,255,255,.08);
+          background: rgba(255,255,255,0.9);
+          border: 1px solid rgba(0,0,0,0.04);
           border-radius: 50%;
           display: flex;
           align-items: center;
@@ -1430,20 +1438,21 @@ function DiscoverContent() {
           flex-shrink: 0;
           position: relative;
           z-index: 1;
+          box-shadow: 0 4px 10px rgba(0,0,0,0.02);
         }
 
         .cfg-combo-img-wrap img {
           width: 100%;
           height: 100%;
           object-fit: contain;
-          transform: scale(1.35);
+          transform: scale(1.2);
         }
 
         .cfg-combo-details {
           flex: 1;
           display: flex;
           flex-direction: column;
-          gap: 4px;
+          gap: 6px;
           position: relative;
           z-index: 1;
         }
@@ -1452,22 +1461,23 @@ function DiscoverContent() {
           font-family: 'Inter', sans-serif;
           font-size: 20px;
           font-weight: 600;
-          color: white;
+          color: #1a1a1a;
           line-height: 1.1;
           margin: 0;
         }
 
         .cfg-combo-status {
           font-family: 'Inter', sans-serif;
-          font-size: 14px;
-          font-weight: 400;
-          color: rgba(255,220,180,.75);
+          font-size: 13px;
+          font-weight: 500;
+          color: #666;
+          letter-spacing: 0.02em;
         }
 
         .cfg-combo-chevron {
-          font-size: 40px;
-          color: rgba(255,230,190,.75);
-          transition: transform 0.3s, color 0.3s;
+          font-size: 32px;
+          color: #a0a0a0;
+          transition: all 0.4s cubic-bezier(0.23, 1, 0.32, 1);
           position: relative;
           z-index: 1;
           display: flex;
@@ -1476,8 +1486,8 @@ function DiscoverContent() {
         }
 
         .cfg-combo-item:hover .cfg-combo-chevron {
-          transform: translateX(10px);
-          color: white;
+          transform: translateX(6px);
+          color: #1a1a1a;
         }
 
         @media (max-width: 600px) {
@@ -1485,23 +1495,23 @@ function DiscoverContent() {
             width: 95%;
           }
           .cfg-combo-item {
-            width: 80%;
+            width: 85%;
             max-width: 320px;
             height: auto;
             min-height: unset;
             flex-direction: column;
             justify-content: center;
-            padding: 24px 20px 20px 20px;
+            padding: 30px 20px;
             text-align: center;
-            gap: 12px;
+            gap: 16px;
             margin: 20px auto;
           }
           .cfg-combo-chevron {
             transform: rotate(90deg);
-            margin-top: 15px;
+            margin-top: 10px;
           }
           .cfg-combo-item:hover .cfg-combo-chevron {
-            transform: rotate(90deg) translateX(10px);
+            transform: rotate(90deg) translateY(6px);
           }
         }
 
