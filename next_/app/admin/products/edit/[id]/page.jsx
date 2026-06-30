@@ -479,7 +479,7 @@ const EditProductPage = () => {
             heroImageId: form.heroImage?.id,
             galleryIds: form.gallery.map(g => g.id),
             images: [form.heroImage?.url, ...form.gallery.map(g => g.url)].filter(Boolean),
-            beltIds: form.canSellBelts ? form.beltIds : [],
+            ...(form.canSellBelts ? { beltIds: form.beltIds } : {}),
             specifications: Object.entries(form.specifications || {}).map(([id, val]) => {
                 const specItem = categoryDetails?.specGroups?.flatMap(sg => sg.specGroup.specifications).find(s => s.specification.id.toString() === id);
                 const isDropdown = specItem?.specification.type === 'select';
