@@ -380,7 +380,7 @@ function DiscoverContent() {
   };
 
   return (
-    <div className={`cfg-page section-${product.theme}`}>
+    <div className={`cfg-page section-${product.theme} ${hasConfig ? 'is-configured' : ''}`}>
       <style>{`
         /* ═══════════ CONFIGURE PAGE ═══════════ */
         .cfg-page {
@@ -388,6 +388,30 @@ function DiscoverContent() {
           color: ${product.textColor};
           background: #ffffff;
           overflow-x: hidden;
+        }
+        .cfg-page.is-configured {
+          background: #000000;
+          color: #ffffff;
+        }
+        .cfg-page.is-configured .cfg-details-title,
+        .cfg-page.is-configured .cfg-details-price,
+        .cfg-page.is-configured .cfg-desc-heading,
+        .cfg-page.is-configured .cfg-desc-text,
+        .cfg-page.is-configured .cfg-specs-title,
+        .cfg-page.is-configured .cfg-spec-label,
+        .cfg-page.is-configured .cfg-spec-value,
+        .cfg-page.is-configured .cfg-heritage-heading,
+        .cfg-page.is-configured .cfg-heritage-text,
+        .cfg-page.is-configured .cfg-spec-trigger {
+          color: #ffffff !important;
+        }
+        .cfg-page.is-configured .cfg-details-specs,
+        .cfg-page.is-configured .cfg-heritage-eyebrow,
+        .cfg-page.is-configured .cfg-spec-group-name {
+          color: #aaaaaa !important;
+        }
+        .cfg-page.is-configured .cfg-spec-row {
+          border-bottom-color: #333333;
         }
 
         /* ── YOUR CHOICES SECTION ── */
@@ -1895,8 +1919,17 @@ function DiscoverContent() {
               <h1 className="cfg-details-title" style={product.heroBgImage ? { color: '#ffffff' } : {}}>{product.title}</h1>
               <p className="cfg-details-specs" style={product.heroBgImage ? { color: 'rgba(255,255,255,0.8)' } : {}}>{product.subtitle}</p>
 
+              {hasConfig && (
+                <div style={{ marginBottom: '20px', display: 'flex', flexWrap: 'wrap', gap: '8px' }}>
+                  {Object.entries(selections).map(([key, val]) => (
+                    <span key={key} style={{ fontSize: '0.8rem', padding: '6px 12px', background: 'rgba(255,255,255,0.1)', borderRadius: '20px', color: '#fff', border: '1px solid rgba(255,255,255,0.2)', textTransform: 'capitalize', fontWeight: '500' }}>
+                      <span style={{opacity: 0.7, marginRight: '4px'}}>{key}:</span> {val}
+                    </span>
+                  ))}
+                </div>
+              )}
               <div className="cfg-price-add-row">
-                <div className="cfg-details-price" style={product.heroBgImage ? { color: '#ffffff' } : {}}>
+                <div className="cfg-details-price" style={product.heroBgImage || hasConfig ? { color: '#ffffff' } : {}}>
                   ₹ {product.price?.toLocaleString() || '7,838,000'}
                   {/* <div className="cfg-info-icon">i</div> */}
                 </div>
@@ -1981,15 +2014,16 @@ function DiscoverContent() {
           </section>
         ) : (
           <section id="description" className="cfg-desc-section" style={{
-            background: product.bgColor || product.gradient || 'radial-gradient(circle at 10% 10%, rgba(255, 45, 117, 0.08) 0%, transparent 40%), linear-gradient(135deg, #ffffff 0%, #fff0f5 100%)'
+            background: '#000000'
           }}>
             <div className="cfg-mist-layer" style={{
-              background: `radial-gradient(circle at 70% 40%, rgba(${product.mistRgb}, 0.15) 0%, transparent 70%)`
+              background: `radial-gradient(circle at 70% 40%, rgba(255, 255, 255, 0.08) 0%, transparent 70%)`
             }}></div>
             <div className="cfg-desc-content" style={{ position: 'relative', zIndex: 2 }}>
-              <h2 className="cfg-desc-heading" style={{ color: product.textColor }}>Model Stories</h2>
-              <p className="cfg-desc-text" style={{ color: product.textColor }}>
-                {product.longDesc}
+              <span className="cfg-heritage-eyebrow" style={{ color: '#aaaaaa', display: 'block', marginBottom: '15px' }}>your timepiece.</span>
+              <h2 className="cfg-desc-heading" style={{ color: '#ffffff' }}>A final combination ready to be worn.</h2>
+              <p className="cfg-desc-text" style={{ color: '#aaaaaa' }}>
+                Every Watch Begins With A Choice. Assembled By Us, Your Combination Ready To Be Worn.
               </p>
             </div>
             <div className="cfg-desc-img-wrap">
@@ -2071,8 +2105,7 @@ function DiscoverContent() {
               )}
               <div className="cfg-sold-stats" onClick={() => openInfoModal(product)}>
                 <span className="shimmer-sweep"></span>
-                <div className="stats-numbers">{product.totalSoldConfigurations || 0}</div>
-                <span className="stats-label">Configurations Sold</span>
+                <span className="stats-label" style={{ fontSize: '1.2rem', marginBottom: '8px' }}>Configurations Sold</span>
                 <div className="cfg-see-variants">
                   <span>see variants</span>
                   <div className="cfg-info-icon">i</div>
