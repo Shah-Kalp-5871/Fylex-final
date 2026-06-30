@@ -93,6 +93,7 @@ function DiscoverContent() {
                   price: vDisplay.price,
                   formattedPrice: vDisplay.formattedPrice,
                   isSoldConfiguration: v.isSoldConfiguration,
+                  fakeSoldCount: v.fakeSoldCount || 0,
                   attributes: v.variantAttributes?.map(va => ({
                     name: va.attributeValue?.attribute?.name?.toLowerCase(),
                     value: va.attributeValue?.label
@@ -113,8 +114,8 @@ function DiscoverContent() {
                 name: pb.belt.name,
                 price: pb.belt.price,
                 stock: pb.belt.stock,
-                image: pb.belt.image ? getFileUrl(pb.belt.image.fileName) : null
-              })) || []
+              })) || [],
+              totalSoldConfigurations: (p.variants || []).reduce((sum, v) => sum + (v.fakeSoldCount || 0), 0)
             };
           });
           setProductsData(mapped);
@@ -2070,12 +2071,9 @@ function DiscoverContent() {
               )}
               <div className="cfg-sold-stats" onClick={() => openInfoModal(product)}>
                 <span className="shimmer-sweep"></span>
+                <div className="stats-numbers">{product.totalSoldConfigurations || 0}</div>
                 <span className="stats-label">Configurations Sold</span>
                 <div className="cfg-see-variants">
-                  {/* <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                    <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
-                    <circle cx="12" cy="12" r="3"></circle>
-                  </svg> */}
                   <span>see variants</span>
                   <div className="cfg-info-icon">i</div>
                 </div>
@@ -2193,7 +2191,7 @@ function DiscoverContent() {
                   </div>
                   <div className="cfg-combo-details">
                     <span className="cfg-combo-name">{combo.name}</span>
-                    <span className="cfg-combo-status">Exclusive Build</span>
+                    <span className="cfg-combo-status">Exclusive Build &bull; {combo.fakeSoldCount || 0} Sold</span>
                   </div>
                   <div className="cfg-combo-chevron">&#8250;</div>
                 </div>

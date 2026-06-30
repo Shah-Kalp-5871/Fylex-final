@@ -63,7 +63,6 @@ const EditProductPage = () => {
     const [variantImageModal, setVariantImageModal] = useState(null); // { index, name }
 
     const [isInitialized, setIsInitialized] = useState(false);
-    const [unlockedTabIndex, setUnlockedTabIndex] = useState(0);
 
     useEffect(() => {
         if (!productId || processing) return;
@@ -118,20 +117,6 @@ const EditProductPage = () => {
     };
 
     const handleTabChange = (targetTab) => {
-        const tabs = ['basic', 'story', 'taxonomy', 'theme', 'variants'];
-        const targetIndex = tabs.indexOf(targetTab);
-        const currentIndex = tabs.indexOf(activeTab);
-
-        if (targetIndex <= currentIndex) {
-            setActiveTab(targetTab);
-            return;
-        }
-
-        for (let i = 0; i < targetIndex; i++) {
-            if (!validateStep(tabs[i])) {
-                return;
-            }
-        }
         setActiveTab(targetTab);
     };
 
@@ -231,32 +216,8 @@ const EditProductPage = () => {
                     canSellBelts: p.productBelts?.length > 0
                 }));
 
-                // Calculate highest unlocked tab based on saved data
-                let maxUnlocked = 0;
+                // Note: Step locking has been removed. All tabs are accessible.
                 
-                const validateSavedData = (stepIndex, data) => {
-                    switch (stepIndex) {
-                        case 0: return !!(data.name && data.slug && data.mainCategoryId);
-                        case 1: return !!(data.shortDescription || data.description);
-                        case 2: return !!(data.mainCategoryId && data.productBelts?.length > 0);
-                        case 3: return !!(data.bgColor && data.textColor);
-                        case 4: return !!(data.variants && data.variants.length > 0);
-                        default: return false;
-                    }
-                };
-
-                for (let i = 0; i < 5; i++) {
-                    if (validateSavedData(i, p)) {
-                        maxUnlocked = i + 1;
-                    } else {
-                        break;
-                    }
-                }
-                // Don't auto-unlock just because data exists. The user explicitly wants
-                // manual progression. But on reload, we must restore where they were.
-                // maxUnlocked calculates the highest sequentially completed step.
-                setUnlockedTabIndex(Math.min(maxUnlocked, 4));
-
                 // 2. Fetch Category Details
                 if (p.mainCategoryId) {
                     const catRes = await api.getCategory(p.mainCategoryId);
@@ -406,7 +367,9 @@ const EditProductPage = () => {
                     })),
                     heroImage: null,
                     heroBgImage: null,
-                    gallery: []
+                    gallery: [],
+                    isSoldConfiguration: false,
+                    fakeSoldCount: 0
                 });
             }
         });
@@ -535,6 +498,7 @@ const EditProductPage = () => {
                 heroImageId: v.heroImage?.id || undefined,
                 heroBgImageId: v.heroBgImage?.id || undefined,
                 isSoldConfiguration: v.isSoldConfiguration || false,
+                fakeSoldCount: parseInt(v.fakeSoldCount) || 0,
                 galleryIds: v.gallery?.map(g => g.id).filter(id => id != null) || []
             }))
         };
@@ -548,7 +512,6 @@ const EditProductPage = () => {
             if (currentIndex < tabs.length - 1) {
                 toast.success("Progress saved! Moving to next step...");
                 const nextTab = tabs[currentIndex + 1];
-                setUnlockedTabIndex(prev => Math.max(prev, currentIndex + 1));
                 setActiveTab(nextTab);
                 router.push(`/admin/products/edit/${productId}?step=${nextTab}`, { scroll: false });
             } else {
@@ -578,22 +541,17 @@ const EditProductPage = () => {
                                 { id: 'theme', label: 'Step 4: Visual Theme', icon: 'fa-palette' },
                                 { id: 'variants', label: 'Step 5: Variants', icon: 'fa-cubes' }
                             ].map((tab, idx) => {
-                                const isLocked = idx > unlockedTabIndex;
-
                                 return (
                                 <button
                                     key={tab.id}
                                     type="button"
                                     onClick={() => {
-                                        if (isLocked) return;
                                         setActiveTab(tab.id);
                                         router.push(`/admin/products/edit/${productId}?step=${tab.id}`, { scroll: false });
                                     }}
                                     className={`w-full flex items-center justify-between !px-2 !py-5 rounded-lg text-sm font-semibold transition-all ${
                                         activeTab === tab.id
                                             ? 'bg-indigo-600 text-white shadow-md'
-                                            : isLocked
-                                            ? 'text-gray-400 opacity-60 cursor-not-allowed bg-gray-50'
                                             : 'text-gray-600 hover:bg-gray-100'
                                     }`}
                                 >
@@ -601,7 +559,6 @@ const EditProductPage = () => {
                                         <i className={`fas ${tab.icon} w-5`}></i>
                                         {tab.label}
                                     </div>
-                                    {isLocked && <i className="fas fa-lock text-gray-300"></i>}
                                 </button>
                                 );
                             })}
@@ -1005,6 +962,7 @@ const EditProductPage = () => {
                                                                 <th className="!px-4 !py-3 text-left text-[10px] font-bold text-gray-400 uppercase tracking-widest">Stock</th>
                                                                 <th className="!px-4 !py-3 text-left text-[10px] font-bold text-gray-400 uppercase tracking-widest">Media</th>
                                                                 <th className="!px-4 !py-3 text-left text-[10px] font-bold text-gray-400 uppercase tracking-widest">Sold Config</th>
+                                                                <th className="!px-4 !py-3 text-left text-[10px] font-bold text-gray-400 uppercase tracking-widest">Sold Count</th>
                                                                 <th className="!px-4 !py-3 text-left text-[10px] font-bold text-gray-400 uppercase tracking-widest"></th>
                                                             </tr>
                                                         </thead>
@@ -1040,6 +998,9 @@ const EditProductPage = () => {
                                                                     </td>
                                                                     <td className="!px-4 !py-4">
                                                                         <input type="checkbox" checked={variant.isSoldConfiguration || false} onChange={(e) => updateVariantField(vIdx, 'isSoldConfiguration', e.target.checked)} className="w-4 h-4 rounded text-indigo-600 focus:ring-indigo-500 cursor-pointer" />
+                                                                    </td>
+                                                                    <td className="!px-4 !py-4">
+                                                                        <input type="number" value={variant.fakeSoldCount || 0} onChange={(e) => updateVariantField(vIdx, 'fakeSoldCount', e.target.value)} className="w-16 bg-white border border-gray-200 rounded !px-2 !py-1.5 text-xs focus:ring-2 focus:ring-indigo-500 outline-none" />
                                                                     </td>
                                                                     <td className="!px-4 !py-4 text-right">
                                                                         <button type="button" onClick={() => removeVariant(vIdx)} className="text-gray-300 hover:text-red-500 transition-colors"><i className="fas fa-trash-alt"></i></button>

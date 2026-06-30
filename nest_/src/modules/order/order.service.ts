@@ -231,18 +231,22 @@ export class OrderService {
           },
         });
 
-        // Deduct inventory
+        // Deduct inventory & increment sold count
         const variant = item.productVariant;
-        if (variant && variant.manageStock) {
-          const newQty = Math.max(0, variant.qty - item.quantity);
-          const newInStock = newQty > 0;
+        if (variant) {
+          const updateData: any = {
+            fakeSoldCount: { increment: item.quantity }
+          };
+          if (variant.manageStock) {
+            const newQty = Math.max(0, variant.qty - item.quantity);
+            const newInStock = newQty > 0;
+            updateData.qty = newQty;
+            updateData.inStock = newInStock;
+            updateData.stockStatus = newInStock ? 'instock' : 'outofstock';
+          }
           await tx.productVariant.update({
             where: { id: variant.id },
-            data: { 
-              qty: newQty, 
-              inStock: newInStock,
-              stockStatus: newInStock ? 'instock' : 'outofstock'
-            }
+            data: updateData
           });
         }
       }

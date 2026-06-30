@@ -49,39 +49,15 @@ const AddProductPage = () => {
         setIsInitialized(true);
     }, []);
 
-    const validateStep = (step) => {
-        switch (step) {
-            case 'basic':
-                if (!form.name || !form.slug || !form.price) {
-                    toast.error('Please fill Name, Slug, and Price in Basic Info.');
-                    return false;
-                }
-                return true;
-            case 'story':
-                if (!form.shortDesc) {
-                    toast.error('Please fill Short Description in Story & Details.');
-                    return false;
-                }
-                return true;
-            case 'taxonomy':
-                if (!form.categoryId) {
-                    toast.error('Please select a Category in Taxonomy.');
-                    return false;
-                }
-                return true;
-            case 'theme':
-                return true;
-            default:
-                return true;
-        }
-    };
-
     const handleTabChange = (targetTab) => {
-        // In Create mode, only the Basic Info tab is accessible.
-        // Other tabs are locked until the product is created.
-        if (targetTab !== 'basic') {
-            toast.error("Please complete Basic Info and click 'Save & Continue' to unlock this step.");
+        if (targetTab === activeTab) return;
+        
+        if (!form.name || !form.categoryId || (form.productType === 'simple' && !form.price)) {
+            toast.error("Please fill required fields (Name, Category, and Price for simple products) before proceeding.");
+            return;
         }
+        
+        toast.info("Please click 'Save & Continue' at the bottom to proceed to the next steps.");
     };
 
     useEffect(() => {
@@ -313,25 +289,21 @@ const AddProductPage = () => {
                                 { id: 'theme', label: 'Step 4: Visual Theme', icon: 'fa-palette' },
                                 { id: 'variants', label: 'Step 5: Variants', icon: 'fa-cubes' }
                             ].map(tab => {
-                                const isLocked = tab.id !== 'basic';
                                 return (
                                 <button
                                     key={tab.id}
                                     type="button"
                                     onClick={() => handleTabChange(tab.id)}
                                     className={`w-full flex items-center justify-between !px-2 !py-5 rounded-lg text-sm font-semibold transition-all ${
-                                        !isLocked && activeTab === tab.id
+                                        activeTab === tab.id
                                             ? 'bg-indigo-600 text-white shadow-md'
-                                            : isLocked 
-                                                ? 'text-gray-400 cursor-not-allowed opacity-60 bg-gray-100' 
-                                                : 'text-gray-600 hover:bg-gray-100'
+                                            : 'text-gray-400 opacity-60 bg-gray-50' 
                                         }`}
                                 >
                                     <div className="flex items-center gap-3">
                                         <i className={`fas ${tab.icon} w-5`}></i>
                                         {tab.label}
                                     </div>
-                                    {isLocked && <i className="fas fa-lock text-gray-400"></i>}
                                 </button>
                                 );
                             })}
@@ -392,7 +364,7 @@ const AddProductPage = () => {
                                     disabled={submitting}
                                     className="!px-8 !py-4 bg-indigo-600 text-white rounded-lg font-bold text-sm transition-all shadow-lg disabled:opacity-50 flex items-center gap-2"
                                 >
-                                    {submitting ? <><i className="fas fa-spinner fa-spin"></i> Processing...</> : <><i className="fas fa-check-circle"></i> Save & Continue to Next Step</>}
+                                    {submitting ? <><i className="fas fa-spinner fa-spin"></i> Processing...</> : <><i className="fas fa-check-circle"></i> Save & Continue</>}
                                 </button>
                             </div>
                         </div>

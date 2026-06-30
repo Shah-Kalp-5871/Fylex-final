@@ -211,6 +211,7 @@ export class ProductService {
                 inStock: (Number(variant.stock || variant.qty || 0)) > 0,
                 isActive: true,
                 isSoldConfiguration: variant.isSoldConfiguration === true || variant.isSoldConfiguration === 'true',
+                fakeSoldCount: Number(variant.fakeSoldCount) || 0,
               }
             });
 
@@ -833,6 +834,7 @@ export class ProductService {
               inStock: (Number(variant.stock) || 0) > 0,
               isActive: true,
               isSoldConfiguration: variant.isSoldConfiguration === true || variant.isSoldConfiguration === 'true',
+              fakeSoldCount: Number(variant.fakeSoldCount) || 0,
             };
 
             let v;

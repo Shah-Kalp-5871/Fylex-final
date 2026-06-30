@@ -16,12 +16,14 @@ export const ToastProvider = ({ children }) => {
         }, 3000);
     }, []);
 
-    const success = (message) => addToast(message, 'success');
-    const error = (message) => addToast(message, 'error');
-    const info = (message) => addToast(message, 'info');
+    const success = useCallback((message) => addToast(message, 'success'), [addToast]);
+    const error = useCallback((message) => addToast(message, 'error'), [addToast]);
+    const info = useCallback((message) => addToast(message, 'info'), [addToast]);
+
+    const value = React.useMemo(() => ({ success, error, info }), [success, error, info]);
 
     return (
-        <ToastContext.Provider value={{ success, error, info }}>
+        <ToastContext.Provider value={value}>
             {children}
             <div style={{ position: 'fixed', top: 90, right: 20, zIndex: 9999, display: 'flex', flexDirection: 'column', gap: 10 }}>
                 {toasts.map(t => (
