@@ -20,6 +20,15 @@ export class RegisterDto {
 
   @IsOptional()
   address?: string;
+
+  @IsOptional()
+  gender?: string;
+
+  @IsOptional()
+  dob?: string;
+
+  @IsOptional()
+  city?: string;
 }
 
 

@@ -118,7 +118,7 @@ export class AuthService {
   }
 
   async registerCustomer(dto: RegisterDto) {
-    const { email, password, name, mobile, otp, address } = dto;
+    const { email, password, name, mobile, otp, address, gender, dob, city } = dto;
 
     if (otp !== '1234') {
       throw new BadRequestException('Invalid OTP');
@@ -149,6 +149,9 @@ export class AuthService {
           name,
           mobile,
           address,
+          gender,
+          dob: dob ? new Date(dob) : null,
+          city,
           password: hashedPassword,
           status: 1,
         },

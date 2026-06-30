@@ -35,11 +35,11 @@ async function main() {
   // Seed settings for videos
   const settings = [
     { group: 'video', key: 'home_hero_video', value: 'https://vjs.zencdn.net/v/oceans.mp4' },
-    { group: 'video', key: 'home_hero_video_title', value: 'The Fylex' },
-    { group: 'video', key: 'home_hero_video_subtitle', value: 'A Legacy of Precision' },
+    { group: 'video', key: 'home_hero_video_title', value: 'FYLEX' },
+    { group: 'video', key: 'home_hero_video_subtitle', value: 'Wear Your Choice.' },
     { group: 'video', key: 'home_legacy_video', value: 'https://vjs.zencdn.net/v/oceans.mp4' },
-    { group: 'video', key: 'home_legacy_video_title', value: 'Beyond <em>Generations</em>' },
-    { group: 'video', key: 'home_legacy_video_subtitle', value: 'A Fylex is not owned — it is entrusted.' },
+    { group: 'video', key: 'home_legacy_video_title', value: 'Not Everyone Follows <em>The Same Path.</em>' },
+    { group: 'video', key: 'home_legacy_video_subtitle', value: 'Different Ambitions. Different Routines. Different Stories.' },
   ];
 
   for (const s of settings) {

@@ -484,11 +484,8 @@ export default function Shop() {
         </div>
         <div className="hov" style={{ background: 'linear-gradient(100deg, rgba(0,0,0,0.45) 0%, rgba(0,0,0,0.2) 40%, transparent 100%)' }}></div>
         <div className="video-overlay">
-          <span className="eyebrow" style={{ color: 'var(--fyl-gold)', letterSpacing: '0.2em', textTransform: 'uppercase', fontSize: '0.75rem', fontWeight: 600, marginBottom: '16px', display: 'block' }}>
-            {videoSettings.shop_hero_video_subtitle || "Exclusive Collection"}
-          </span>
-          <h1 className="r-hero" dangerouslySetInnerHTML={{ __html: videoSettings.shop_hero_video_title ? videoSettings.shop_hero_video_title.replace('Nautical Precision', '<em>Nautical Precision</em>') : "The Master of <br /><em>Nautical Precision</em>" }}></h1>
-          <button className="bf" style={{ color: '#fff', borderColor: '#fff' }} onClick={() => document.querySelector('#rot').scrollIntoView({ behavior: 'smooth' })}>Discover More</button>
+          <h1 className="r-hero" dangerouslySetInnerHTML={{ __html: "Driven By Legacy, <br /><em>Defined By Choice.</em>" }}></h1>
+          <button className="bf" style={{ color: '#fff', borderColor: '#fff' }} onClick={() => document.querySelector('#dial').scrollIntoView({ behavior: 'smooth' })}>Discover More</button>
         </div>
       </section>
 
@@ -555,8 +552,8 @@ export default function Shop() {
         </div>
         <div className="hov" style={{ background: 'rgba(0,0,0,0.35)' }}></div>
         <div className="video-overlay">
-          <h2 className="r-dial" dangerouslySetInnerHTML={{ __html: videoSettings.shop_deepsea_video_title ? videoSettings.shop_deepsea_video_title.replace('Chronometry', '<em>Chronometry</em>') : "Deep Sea <br /><em>Chronometry</em>" }}></h2>
-          <p className="r-dial">{videoSettings.shop_deepsea_video_subtitle || "Engineered for the abyss, where pressure defines excellence."}</p>
+          <h2 className="r-dial" dangerouslySetInnerHTML={{ __html: "It's your <br /><em>time</em>" }}></h2>
+          <p className="r-dial">wear your choice.</p>
         </div>
       </section>
 
@@ -565,106 +562,57 @@ export default function Shop() {
           <div className="dimg-col rl">
             <div className="dimgf">
               <img src={getFileUrl(videoSettings.shop_dial_image) || "https://images.unsplash.com/photo-1614164185128-e4ec99c436d7?w=900&q=85"} alt="Fylex Dial" loading="lazy" />
-              <div className="dcap"><span>{videoSettings.shop_dial_caption || 'Fylex Master · Ref. FX-3200'}</span></div>
+              <div className="dcap"><span>The Atlas Legacy</span></div>
             </div>
           </div>
           <div className="dtxt">
-            <div className="lbl r0">{videoSettings.shop_dial_label || 'The Hallmark of Prestige'}</div>
-            <div className="rule r0"></div>
-            <h2 className="hd r0" style={{ marginTop: '24px' }} dangerouslySetInnerHTML={{ __html: videoSettings.shop_dial_title || 'Exquisite<br /><em>Mastery</em>' }}></h2>
-            <p className="shop-bt r0">{videoSettings.shop_dial_desc || 'Every element of the Fylex Master dial is obsessively hand-finished in La Chaux-de-Fonds. Applied luminescent indices, guilloché sunburst texture and meteorite-inspired lacquer create a timepiece commanding presence.'}</p>
-            <div className="dspecs r0">
-              <div className="dspec">
-                <div className="dsv" dangerouslySetInnerHTML={{ __html: videoSettings.shop_dial_spec1_val || '±1<span style="font-size: 16px; opacity: .45">s</span>' }}></div>
-                <div className="dsl">{videoSettings.shop_dial_spec1_lbl || 'Daily Accuracy'}</div>
-              </div>
-              <div className="dspec">
-                <div className="dsv" dangerouslySetInnerHTML={{ __html: videoSettings.shop_dial_spec2_val || '72<span style="font-size: 16px; opacity: .45">h</span>' }}></div>
-                <div className="dsl">{videoSettings.shop_dial_spec2_lbl || 'Power Reserve'}</div>
-              </div>
-              <div className="dspec">
-                <div className="dsv" dangerouslySetInnerHTML={{ __html: videoSettings.shop_dial_spec3_val || '31' }}></div>
-                <div className="dsl">{videoSettings.shop_dial_spec3_lbl || 'Jewels'}</div>
-              </div>
-              <div className="dspec">
-                <div className="dsv" dangerouslySetInnerHTML={{ __html: videoSettings.shop_dial_spec4_val || '300<span style="font-size: 16px; opacity: .45">m</span>' }}></div>
-                <div className="dsl">{videoSettings.shop_dial_spec4_lbl || 'Water Resistance'}</div>
-              </div>
-            </div>
+            <h2 className="hd r0" dangerouslySetInnerHTML={{ __html: 'We didn\'t invent the watch.<br /><em>We perfected the way you buy it.</em>' }}></h2>
+            <p className="shop-bt r0">For years, luxury meant accepting a pre-designed vision. FYLEX exists to bridge the gap between masterful assembly and personal style.</p>
           </div>
         </div>
       </section>
 
       <section id="heritage-2-video" style={{ height: '120vh', position: 'relative', overflow: 'hidden', background: '#000' }}>
         <div className="yt-bg-wrap">
-          {videoSettings.shop_precision_video_is_iframe === 'true' ? (
-            <iframe className="hvideo" src={videoSettings.shop_precision_video} frameBorder="0" allow="autoplay; fullscreen" allowFullScreen></iframe>
-          ) : (
-            <video className="hvideo" src={getFileUrl(videoSettings.shop_precision_video) || "/Watch_Iframe_1.mp4"} autoPlay loop muted playsInline></video>
-          )}
+          <img className="hvideo" src="/assets/fylex-watch-v2/dialwithhand.png" alt="Assembly" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
         </div>
-        <div className="hov" style={{ background: 'rgba(0,0,0,0.35)' }}></div>
-        <div className="video-overlay">
-          <h2 className="r-hero" dangerouslySetInnerHTML={{ __html: videoSettings.shop_precision_video_title ? videoSettings.shop_precision_video_title.replace('Precision', '<em>Precision</em>') : "The Art of <em>Precision</em>" }}></h2>
-          <p className="r-hero">{videoSettings.shop_precision_video_subtitle || "Every Fylex timepiece is born from a relentless pursuit of perfection."}</p>
+        <div className="hov" style={{ background: 'rgba(0,0,0,0.65)' }}></div>
+        <div className="video-overlay" style={{ padding: '40px', maxWidth: '800px', margin: '0 auto' }}>
+          <h2 className="r-hero" style={{ fontSize: 'clamp(24px, 4vw, 40px)', lineHeight: '1.4', fontWeight: '300' }}>
+            Not everyone follows the same path. Your ambition, your routine, your story—every aspect of your life is unique.
+          </h2>
         </div>
       </section>
 
-      <section id="mv">
-        <div className="mvhdr r0">
-          <div className="lbl">{videoSettings.shop_mv_label || 'Calibre FX-3200'}</div>
-          <div className="rule"></div>
-          <h2 className="hd" dangerouslySetInnerHTML={{ __html: videoSettings.shop_mv_title || 'The heart of<br /><em>precision</em>' }}></h2>
-          <p className="shop-bt" style={{ marginTop: '20px' }}>{videoSettings.shop_mv_desc || 'In-house movement, 14 years of R&D, manufactured and assembled entirely in Geneva. Superlative Chronometer certified to ±1 second per day.'}</p>
-        </div>
-        <div className="mvbg"></div>
-        <div className="mvgrid">
-          <div className="mvcard r0">
-            <div className="mvico"><svg viewBox="0 0 40 40">
-              <circle cx="20" cy="20" r="16" />
-              <line x1="20" y1="4" x2="20" y2="10" />
-              <line x1="20" y1="30" x2="20" y2="36" />
-              <line x1="4" y1="20" x2="10" y2="20" />
-              <line x1="30" y1="20" x2="36" y2="20" />
-              <circle cx="20" cy="20" r="4" />
-            </svg></div>
-            <div className="mvkey">{videoSettings.shop_mv_card1_key || 'Frequency'}</div>
-            <div className="mvval" dangerouslySetInnerHTML={{ __html: videoSettings.shop_mv_card1_val || '28<sup>,800 vph</sup>' }}></div>
-            <div className="mvdsc">{videoSettings.shop_mv_card1_desc || '4 Hz oscillation for silky smooth seconds sweep. Beats in perfect time, every time.'}</div>
+      <section id="mv" style={{ padding: '100px 5vw', background: '#000', color: '#fff' }}>
+        <div style={{ maxWidth: '1280px', margin: '0 auto', display: 'flex', flexWrap: 'wrap', alignItems: 'center', gap: '80px' }}>
+          <div style={{ flex: '1 1 400px' }}>
+            <div className="lbl" style={{ color: 'var(--fyl-gold)', fontSize: '12px', letterSpacing: '0.3em', textTransform: 'uppercase', marginBottom: '12px', fontWeight: 600 }}>
+              An Atelier Dedicated To You
+            </div>
+            <div className="rule" style={{ background: 'var(--fyl-gold)', width: '40px', height: '2px', marginBottom: '40px' }}></div>
+            
+            <div className="lbl" style={{ color: 'var(--fyl-gold)', fontSize: '12px', letterSpacing: '0.3em', textTransform: 'uppercase', marginBottom: '12px', fontWeight: 600 }}>
+              Assembly & Precision
+            </div>
+            <h2 className="hd" style={{ fontSize: 'clamp(32px, 4vw, 48px)', fontFamily: 'Avenir, sans-serif', fontWeight: 500, marginBottom: '24px', lineHeight: 1.1 }}>
+              Crafted To Your<br /><em>Demand</em>
+            </h2>
+            <p className="shop-bt" style={{ color: '#ccc', lineHeight: 1.8, fontSize: '16px', maxWidth: '500px' }}>
+              Every component is meticulously sourced, but the final creation doesn't exist until you command it. From the casing to the dial, our watchmakers wait for your instructions.
+            </p>
+            <div style={{ marginTop: '40px', display: 'flex', gap: '15px' }}>
+              <Link href="/products" style={{ fontSize: '12px', letterSpacing: '0.2em', textTransform: 'uppercase', border: '1px solid rgba(255,255,255,0.2)', padding: '12px 24px', display: 'inline-block', color: '#fff', textDecoration: 'none' }}>
+                Best Sellers
+              </Link>
+              <Link href="/pre-configure" style={{ fontSize: '12px', letterSpacing: '0.2em', textTransform: 'uppercase', background: '#fff', border: '1px solid #fff', padding: '12px 24px', display: 'inline-block', color: '#000', textDecoration: 'none' }}>
+                Configure
+              </Link>
+            </div>
           </div>
-          <div className="mvcard r0">
-            <div className="mvico"><svg viewBox="0 0 40 40">
-              <path d="M20 4 L36 20 L20 36 L4 20 Z" />
-              <path d="M20 12 L28 20 L20 28 L12 20 Z" />
-              <circle cx="20" cy="20" r="3" />
-            </svg></div>
-            <div className="mvkey">{videoSettings.shop_mv_card2_key || 'Power Reserve'}</div>
-            <div className="mvval" dangerouslySetInnerHTML={{ __html: videoSettings.shop_mv_card2_val || '72<sup>h</sup>' }}></div>
-            <div className="mvdsc">{videoSettings.shop_mv_card2_desc || 'Dual mainspring barrel architecture provides three full days of operation.'}</div>
+          <div style={{ flex: '1 1 500px', position: 'relative' }}>
+            <img src="/assets/fylex-watch-v2/hero.png" alt="The Assembly Room" style={{ width: '100%', borderRadius: '4px', filter: 'drop-shadow(0 30px 60px rgba(0,0,0,0.5))' }} />
           </div>
-          <div className="mvcard r0">
-            <div className="mvico"><svg viewBox="0 0 40 40">
-              <circle cx="20" cy="20" r="15" />
-              <circle cx="20" cy="20" r="8" />
-              <line x1="20" y1="5" x2="20" y2="12" />
-              <line x1="20" y1="28" x2="20" y2="35" />
-              <line x1="5" y1="20" x2="12" y2="20" />
-              <line x1="28" y1="20" x2="35" y2="20" />
-            </svg></div>
-            <div className="mvkey">{videoSettings.shop_mv_card3_key || 'Certification'}</div>
-            <div className="mvval" dangerouslySetInnerHTML={{ __html: videoSettings.shop_mv_card3_val || 'COSC' }}></div>
-            <div className="mvdsc">{videoSettings.shop_mv_card3_desc || 'Superlative Chronometer certified to ±1 second per day across all conditions.'}</div>
-          </div>
-        </div>
-        <div className="mvphotos">
-          <div className="mvp r0"><img src={getFileUrl(videoSettings.shop_mv_photo1_img) || "https://images.unsplash.com/photo-1594534475808-b18fc33b045e?w=500&q=76"}
-            alt="Balance wheel" loading="lazy" /><span className="mvpl">{videoSettings.shop_mv_photo1_lbl || 'Balance Wheel'}</span></div>
-          <div className="mvp r0"><img src={getFileUrl(videoSettings.shop_mv_photo2_img) || "https://images.unsplash.com/photo-1547996160-81dfa63595aa?w=500&q=76"}
-            alt="Escapement" loading="lazy" /><span className="mvpl">{videoSettings.shop_mv_photo2_lbl || 'Escapement'}</span></div>
-          <div className="mvp r0"><img src={getFileUrl(videoSettings.shop_mv_photo3_img) || "https://images.unsplash.com/photo-1539874754764-5a96559165b0?w=500&q=76"}
-            alt="Main Barrel" loading="lazy" /><span className="mvpl">{videoSettings.shop_mv_photo3_lbl || 'Main Barrel'}</span></div>
-          <div className="mvp r0"><img src={getFileUrl(videoSettings.shop_mv_photo4_img) || "https://images.unsplash.com/photo-1516574187841-cb9cc2ca948b?w=500&q=76"} alt="Rotor"
-            loading="lazy" /><span className="mvpl">{videoSettings.shop_mv_photo4_lbl || 'Self-winding Rotor'}</span></div>
         </div>
       </section>
 

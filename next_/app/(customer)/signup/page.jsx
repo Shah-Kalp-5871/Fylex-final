@@ -38,7 +38,8 @@ export default function Signup() {
   const [data, setData] = useState({
     name: '', email: '',
     mobile: mobileFromLogin,
-    otp: '', address: '', pincode: '', area: ''
+    otp: '', address: '', pincode: '', area: '',
+    gender: '', dob: '', city: ''
   });
   const [loaded, setLoaded] = useState(false);
   const [submitting, setSubmitting] = useState(false);
@@ -108,6 +109,9 @@ export default function Signup() {
         mobile: data.mobile,
         address: `${data.address}${data.area ? `, ${data.area}` : ''}${data.pincode ? ` - ${data.pincode}` : ''}`,
         otp: '1234', // Default OTP since already verified in login flow
+        gender: data.gender,
+        dob: data.dob,
+        city: data.city || data.area,
       });
       setDone(true);
       setTimeout(() => navigate.push('/'), 2000);
@@ -190,6 +194,31 @@ export default function Signup() {
                     onChange={e => setData(p => ({ ...p, email: e.target.value }))}
                     placeholder="you@example.com"
                   />
+                  <div className="auth-field-group">
+                    <label className="auth-label" htmlFor="sp-gender">Gender</label>
+                    <div className="auth-input-row">
+                      <select
+                        id="sp-gender"
+                        value={data.gender}
+                        onChange={e => setData(p => ({ ...p, gender: e.target.value }))}
+                        className="auth-input"
+                        style={{ padding: '4px 0', WebkitAppearance: 'none', MozAppearance: 'none', appearance: 'none', background: 'transparent' }}
+                      >
+                        <option value="" disabled style={{ color: '#000' }}>Select Gender</option>
+                        <option value="Male" style={{ color: '#000' }}>Male</option>
+                        <option value="Female" style={{ color: '#000' }}>Female</option>
+                        <option value="Other" style={{ color: '#000' }}>Other</option>
+                      </select>
+                    </div>
+                  </div>
+                  <InputField
+                    label="Date of Birth"
+                    type="date"
+                    id="sp-dob"
+                    value={data.dob}
+                    onChange={e => setData(p => ({ ...p, dob: e.target.value }))}
+                    placeholder=""
+                  />
                   <InputField
                     label="Pincode"
                     id="sp-pincode"
@@ -198,6 +227,13 @@ export default function Signup() {
                     placeholder="Enter 6-digit pincode"
                     maxLength={6}
                     hint={data.area ? <span style={{ color: '#5ec49e', fontWeight: 500 }}>Area: {data.area}</span> : null}
+                  />
+                  <InputField
+                    label="City"
+                    id="sp-city"
+                    value={data.city}
+                    onChange={e => setData(p => ({ ...p, city: e.target.value }))}
+                    placeholder="City Name"
                   />
                   <InputField
                     label="Full Address"

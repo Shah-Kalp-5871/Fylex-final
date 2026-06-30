@@ -223,6 +223,26 @@ export default function MyPurchases() {
         .empty-cta:hover {
           background: #e0e0e0;
         }
+        
+        .get-help-btn {
+          display: inline-block;
+          margin-top: 15px;
+          padding: 10px 20px;
+          background: transparent;
+          color: #ffffff;
+          border: 1px solid #ffffff;
+          text-decoration: none;
+          font-size: 10px;
+          font-weight: 700;
+          transition: background 0.3s, color 0.3s;
+          text-transform: uppercase;
+          border-radius: 999px;
+          letter-spacing: 0.1em;
+        }
+        .get-help-btn:hover {
+          background: #ffffff;
+          color: #000000;
+        }
 
         @media (max-width: 1024px) {
           .purchases-grid {
@@ -268,8 +288,9 @@ export default function MyPurchases() {
 
         {allPurchasedUnits.length === 0 ? (
           <div className="purchases-empty">
-            <h2>No watches purchased yet.</h2>
+            <h2>No purchases made yet.</h2>
             <Link href="/products" className="empty-cta">Browse Collection</Link>
+            <Link href="#" className="get-help-btn">Get Help</Link>
           </div>
         ) : (
           <div className="purchases-grid">
@@ -292,16 +313,38 @@ export default function MyPurchases() {
                   </h3>
                   {unit.variantDisplay && <span className="v-accent">{unit.variantDisplay}</span>}
 
-                  <div className="btn-support-container">
+                  <div className="btn-support-container" style={{ display: 'flex', flexDirection: 'column', gap: '8px', paddingTop: '15px' }}>
                     <button 
                       className="btn-support" 
                       onClick={(e) => {
                         e.stopPropagation();
-                        router.push(`/care-support?order=${unit.orderId}`);
+                        // Placeholder for track order
                       }}
                     >
-                      Get Support
+                      Track Order Details
                     </button>
+                    <button 
+                      className="btn-support" 
+                      style={{ background: 'transparent', color: '#fff', border: '1px solid #fff' }}
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        // Placeholder for download invoice
+                      }}
+                    >
+                      Download Invoice
+                    </button>
+                    {unit.redirectUrl && unit.redirectUrl.includes('configure') && (
+                      <button 
+                        className="btn-support" 
+                        style={{ background: 'transparent', color: '#fff', border: '1px solid #fff' }}
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          router.push(unit.redirectUrl);
+                        }}
+                      >
+                        Configure
+                      </button>
+                    )}
                   </div>
                 </div>
               </div>

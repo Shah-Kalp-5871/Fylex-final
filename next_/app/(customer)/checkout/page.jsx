@@ -70,6 +70,7 @@ const Checkout = () => {
         lastName: names.slice(1).join(' ') || '',
         email: user.email || prev.email,
         phone: user.mobile || prev.phone,
+        address: user.address || prev.address,
       }));
     }
 
@@ -157,9 +158,9 @@ const Checkout = () => {
   }, [items, formData.postalCode, formData.couponCode, currentUserId, cartTotals.subtotal]);
 
   const steps = [
-    { id: 1, name: 'Shipping' },
-    { id: 2, name: 'Payment' },
-    { id: 3, name: 'Review' },
+    { id: 1, name: 'User Details' },
+    { id: 2, name: 'Address Details' },
+    { id: 3, name: 'Review & Payment' },
   ];
 
   const validateStep = (step) => {
@@ -167,12 +168,6 @@ const Checkout = () => {
     if (step === 1) {
       if (!formData.firstName.trim()) errors.firstName = 'Required';
       if (!formData.lastName.trim()) errors.lastName = 'Required';
-      if (!formData.address.trim()) errors.address = 'Required';
-      if (!formData.city.trim()) errors.city = 'Required';
-
-      const postalRegex = /^[1-9][0-9]{5}$/;
-      if (!formData.postalCode) errors.postalCode = 'Required';
-      else if (!postalRegex.test(formData.postalCode)) errors.postalCode = 'Invalid PIN (6 digits)';
 
       const phoneRegex = /^[6-9][0-9]{9}$/;
       if (!formData.phone) errors.phone = 'Required';
@@ -181,6 +176,13 @@ const Checkout = () => {
       const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
       if (!formData.email) errors.email = 'Required';
       else if (!emailRegex.test(formData.email)) errors.email = 'Invalid email';
+    } else if (step === 2) {
+      if (!formData.address.trim()) errors.address = 'Required';
+      if (!formData.city.trim()) errors.city = 'Required';
+
+      const postalRegex = /^[1-9][0-9]{5}$/;
+      if (!formData.postalCode) errors.postalCode = 'Required';
+      else if (!postalRegex.test(formData.postalCode)) errors.postalCode = 'Invalid PIN (6 digits)';
     }
     setValidationErrors(errors);
     return Object.keys(errors).length === 0;
@@ -337,7 +339,7 @@ const Checkout = () => {
             <div className="checkout-card glassmorphism">
               {activeStep === 1 && (
                 <div className="checkout-section fade-in">
-                  <h2 className="section-title">Shipping Information</h2>
+                  <h2 className="section-title">User Details</h2>
                   <div className="form-grid">
                     <div className={`form-group ${validationErrors.firstName ? 'error' : ''}`}>
                       <label>First Name</label>
@@ -354,6 +356,19 @@ const Checkout = () => {
                       <input type="email" name="email" value={formData.email} onChange={updateFormData} placeholder="john@example.com" />
                       {validationErrors.email && <span className="error-msg">{validationErrors.email}</span>}
                     </div>
+                    <div className={`form-group full ${validationErrors.phone ? 'error' : ''}`}>
+                      <label>Phone Number</label>
+                      <input type="text" name="phone" value={formData.phone} onChange={updateFormData} placeholder="9876543210" maxLength={10} />
+                      {validationErrors.phone && <span className="error-msg">{validationErrors.phone}</span>}
+                    </div>
+                  </div>
+                </div>
+              )}
+
+              {activeStep === 2 && (
+                <div className="checkout-section fade-in">
+                  <h2 className="section-title">Address Details</h2>
+                  <div className="form-grid">
                     <div className={`form-group full ${validationErrors.address ? 'error' : ''}`}>
                       <label>Address Line 1</label>
                       <input type="text" name="address" value={formData.address} onChange={updateFormData} placeholder="123 Luxury Lane" maxLength={200} />
@@ -374,40 +389,26 @@ const Checkout = () => {
                       {validationErrors.postalCode && <span className="error-msg">{validationErrors.postalCode}</span>}
                       {formData.area && formData.state && <span style={{ color: '#555555', fontWeight: 600, fontSize: '11px', marginTop: '6px', display: 'block' }}>Area: {formData.area}, {formData.state}</span>}
                     </div>
-                    <div className={`form-group full ${validationErrors.phone ? 'error' : ''}`}>
-                      <label>Phone Number</label>
-                      <input type="text" name="phone" value={formData.phone} onChange={updateFormData} placeholder="9876543210" maxLength={10} />
-                      {validationErrors.phone && <span className="error-msg">{validationErrors.phone}</span>}
-                    </div>
                   </div>
-
-                  {/* {!isServiceable && !isCalculating && formData.postalCode.length === 6 && (
-                    <div className="shipping-error-notice">
-                      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                        <circle cx="12" cy="12" r="10" />
-                        <line x1="12" y1="8" x2="12" y2="12" />
-                        <line x1="12" y1="16" x2="12.01" y2="16" />
-                      </svg>
-                      <span><b>Delivery Unavailable:</b> Sorry, we cannot deliver to pincode <b>{formData.postalCode}</b> at this time.</span>
-                    </div>
-                  )} */}
-
-                  {/* {shippingMessage && !isCalculating && formData.postalCode.length === 6 && (
-                    <div className="shipping-warning-notice">
-                      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                        <path d="M10.29 3.86L1.82 18a2 2 0 001.71 3h16.94a2 2 0 001.71-3L13.71 3.86a2 2 0 00-3.42 0z" />
-                        <line x1="12" y1="9" x2="12" y2="13" />
-                        <line x1="12" y1="17" x2="12.01" y2="17" />
-                      </svg>
-                      <span>{shippingMessage}</span>
-                    </div>
-                  )} */}
                 </div>
               )}
 
-              {activeStep === 2 && (
+              {activeStep === 3 && (
                 <div className="checkout-section fade-in">
-                  <h2 className="section-title">Payment Method</h2>
+                  <h2 className="section-title">Review & Payment</h2>
+                  <p className="review-text">Please review your shipping details and select a payment method before completing the purchase.</p>
+                  <div className="review-summary-box">
+                    <div className="review-item">
+                      <span className="review-label">Shipping To:</span>
+                      <span className="value">{formData.firstName} {formData.lastName}, {formData.address}, {formData.city}, {formData.postalCode}</span>
+                    </div>
+                    <div className="review-item">
+                      <span className="review-label">Contact:</span>
+                      <span className="value">{formData.phone} | {formData.email}</span>
+                    </div>
+                  </div>
+
+                  <h3 className="section-title" style={{ marginTop: '30px', fontSize: '1.2rem' }}>Payment Method</h3>
                   <div className="payment-options">
                     <div
                       className={`payment-card ${formData.paymentMethod === 'razorpay' ? 'selected' : ''}`}
@@ -450,27 +451,6 @@ const Checkout = () => {
                       <p>You will be redirected to Razorpay secure checkout to complete your purchase.</p>
                     </div>
                   )}
-                </div>
-              )}
-
-              {activeStep === 3 && (
-                <div className="checkout-section fade-in">
-                  <h2 className="section-title">Review Order</h2>
-                  <p className="review-text">Please review your shipping and payment details before completing the purchase.</p>
-                  <div className="review-summary-box">
-                    <div className="review-item">
-                      <span className="review-label">Shipping To:</span>
-                      <span className="value">{formData.firstName} {formData.lastName}, {formData.address}, {formData.city}, {formData.postalCode}</span>
-                    </div>
-                    <div className="review-item">
-                      <span className="review-label">Contact:</span>
-                      <span className="value">{formData.phone} | {formData.email}</span>
-                    </div>
-                    <div className="review-item">
-                      <span className="review-label">Payment:</span>
-                      <span className="value">{formData.paymentMethod === 'razorpay' ? 'Razorpay Secure' : 'Cash on Delivery'}</span>
-                    </div>
-                  </div>
                 </div>
               )}
 

@@ -184,7 +184,7 @@ export default function Login() {
             {/* ══════ STEP 1: Phone Number ══════ */}
             {step === 1 && (
               <>
-                <h1 className="auth-title">Access your Fylex</h1>
+                <h1 className="auth-title">Welcome To Fylex</h1>
                 <p className="auth-subtitle">
                   Access your profile, application status, and timepieces.
                 </p>

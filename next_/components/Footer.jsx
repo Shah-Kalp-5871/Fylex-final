@@ -104,10 +104,11 @@ const Footer = () => {
 
           <div className="footer-col-v1">
             <ul>
-              <li><Link href="/profile" className="footer-link-v1">My Account</Link></li>
-              <li><Link href="/care-support" className="footer-link-v1">Watch Care</Link></li>
-              <li><Link href="/policies" className="footer-link-v1">Legal</Link></li>
-              <li><a href="https://instagram.com" target="_blank" rel="noreferrer" className="footer-link-v1">Instagram</a></li>
+              <li><Link href="/policies/privacy" className="footer-link-v1">Privacy Policy</Link></li>
+              <li><Link href="/policies/terms" className="footer-link-v1">Terms Of Service</Link></li>
+              <li><Link href="/policies/refund" className="footer-link-v1">Refund And Exchange Policy</Link></li>
+              <li><a href="https://wa.me/placeholder" target="_blank" rel="noreferrer" className="footer-link-v1">Get In Touch</a></li>
+              <li><a href="https://instagram.com/placeholder" target="_blank" rel="noreferrer" className="footer-link-v1">Instagram</a></li>
             </ul>
           </div>
         </div>

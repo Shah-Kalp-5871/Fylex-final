@@ -154,6 +154,8 @@ model Customer {
   deletedAt            DateTime?               @map("deleted_at")
   blockedBy            Int?                    @map("blocked_by")
   dob                  DateTime?               @map("dob")
+  gender               String?                 @map("gender")
+  city                 String?                 @map("city")
   address              String?                 @map("address")
   activityLogs         ActivityLog[]
   auditTrail           AuditTrail[]

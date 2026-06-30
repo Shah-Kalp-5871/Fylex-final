@@ -57,7 +57,7 @@ const Products = () => {
             num: String(idx + 1).padStart(2, '0'),
             title: display.name,
             titleAccent: '',
-            subtitle: p.subtitle || 'Luxury Collection',
+            subtitle: p.subtitle || 'steel/strap collection',
             tagline: p.tagline || '',
             description: p.description || p.shortDescription || '',
             image: display.image,
@@ -955,8 +955,8 @@ const Products = () => {
           />
         </div>
         <div className="products-hero-content">
-          <span className="hero-eyebrow">{videoSettings.products_hero_video_subtitle || "A Legacy of Distinction"}</span>
-          <h1>{videoSettings.products_hero_video_title || "Exceptional Timepieces"}</h1>
+          <span className="hero-eyebrow">{videoSettings.products_hero_video_subtitle || "Wear It Your Way."}</span>
+          <h1>{videoSettings.products_hero_video_title || "FYLEX"}</h1>
         </div>
       </section>
 
@@ -1010,6 +1010,10 @@ const Products = () => {
                   <div className="p-actions-row">
                     <Link href={`/discover?watch=${col.id}`} className="p-link-luxury">
                       <span>Explore</span>
+                      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5"><path d="M5 12h14M12 5l7 7-7 7" /></svg>
+                    </Link>
+                    <Link href={`/configure?watch=${col.id}`} className="p-link-luxury">
+                      <span>Configure</span>
                       <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5"><path d="M5 12h14M12 5l7 7-7 7" /></svg>
                     </Link>
                   </div>
