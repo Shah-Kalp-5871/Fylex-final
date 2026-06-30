@@ -1,3 +1,5 @@
+# Brainstorming Notes
+
 # Running the Fylex Project
 
 This document provides instructions on how to start the development servers for both the backend and frontend of the Fylex project.

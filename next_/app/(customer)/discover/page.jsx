@@ -2056,8 +2056,8 @@ function DiscoverContent() {
 
         <section id="heritage" className="cfg-heritage-section">
           <div className="cfg-heritage-left">
-            <span className="cfg-heritage-eyebrow">Heritage & Legacy</span>
-            <h2 className="cfg-heritage-heading">A Story Written in Time</h2>
+            <span className="cfg-heritage-eyebrow">More than keeping time</span>
+            <h2 className="cfg-heritage-heading">Made around preference</h2>
             <p className="cfg-heritage-text">{product.heritageText}</p>
           </div>
           <div className="cfg-heritage-right">
