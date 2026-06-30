@@ -1014,28 +1014,24 @@ function DiscoverContent() {
           align-items: center;
           justify-content: center;
           cursor: pointer;
-          color: #fff;
+          color: inherit;
           transition: all 0.3s ease;
           width: 40px;
           height: 40px;
           border-radius: 50%;
-          background: #000000;
-          backdrop-filter: blur(8px);
+          background: transparent;
           border: 1.5px solid transparent;
           box-sizing: border-box;
         }
         .cfg-fav-inline:hover {
-          transform: scale(1.05);
-          background: #222222;
+          transform: scale(1.1);
         }
         .cfg-fav-inline.active {
-          background: #ffffff;
-          color: #000000;
-          border-color: #000000;
+          background: transparent;
+          color: inherit;
         }
         .cfg-fav-inline.active:hover {
-          background: #f0f0f0;
-          transform: scale(1.05);
+          transform: scale(1.1);
         }
         .cfg-fav-inline svg {
           width: 20px;
@@ -1055,7 +1051,9 @@ function DiscoverContent() {
           text-transform: uppercase;
           cursor: pointer;
           transition: all 0.4s;
-          width: 140px;
+          min-width: 140px;
+          width: auto;
+          white-space: nowrap;
           text-align: center;
           display: inline-flex;
           justify-content: center;
@@ -1174,6 +1172,10 @@ function DiscoverContent() {
           max-width: 520px;
           border: none;
           z-index: 1;
+        }
+        .cfg-sold-stats .cfg-info-icon {
+          border-color: #ffffff;
+          color: #ffffff !important;
         }
         /* ── Animated rotating gradient border ── */
         .cfg-sold-stats::before {
@@ -1945,7 +1947,7 @@ function DiscoverContent() {
                     </button>
                   )}
                   {hasConfig && (
-                    <div className="cfg-details-right">
+                    <div className="cfg-details-right" style={{ color: product.heroBgImage || hasConfig ? '#ffffff' : '#1a1a1a' }}>
                       <div
                         className={`cfg-fav-inline ${isInWishlist(product.currentVariantId || product.variantId) ? 'active' : ''}`}
                         onClick={() => toggleWishlist({ ...product, variantId: product.currentVariantId || product.variantId })}
