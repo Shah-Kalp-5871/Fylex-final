@@ -81,7 +81,7 @@ const Products = () => {
         if (settings) {
           const videoMap = {};
           settings.forEach(s => {
-            if (s.group === 'video') videoMap[s.key] = s.value;
+            videoMap[s.key] = s.value;
           });
           setVideoSettings(videoMap);
         }

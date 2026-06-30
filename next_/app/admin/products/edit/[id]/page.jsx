@@ -250,6 +250,7 @@ const EditProductPage = () => {
                             url: v.variantImages.find(vi => vi.type === 'HERO_BG').media.url || `/uploads/${v.variantImages.find(vi => vi.type === 'HERO_BG').media.fileName}`
                         } : null,
                         isSoldConfiguration: v.isSoldConfiguration || false,
+                        fakeSoldCount: v.fakeSoldCount || 0,
                     })));
 
                     // Hydrate selectedAttributeValues

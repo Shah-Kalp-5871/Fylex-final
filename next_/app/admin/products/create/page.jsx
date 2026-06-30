@@ -206,6 +206,7 @@ const AddProductPage = () => {
                 heroImage: null,
                 gallery: [],
                 isSoldConfiguration: false,
+                fakeSoldCount: 0,
                 id: Math.random().toString(36).substr(2, 9)
             };
         });

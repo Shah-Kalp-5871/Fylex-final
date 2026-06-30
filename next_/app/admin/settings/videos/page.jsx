@@ -23,9 +23,9 @@ const VideoSettingsPage = () => {
     setError(null);
     try {
       const response = await settingsService.getSettings();
-      // Filter only video settings
-      const videoSettings = response.data.filter(s => s.group === 'video');
-      setSettings(videoSettings);
+      // Filter settings that are relevant to videos or just keep all
+      // since the UI specifically requests them by key
+      setSettings(response.data);
     } catch (err) {
       setError("Failed to load settings");
     } finally {
