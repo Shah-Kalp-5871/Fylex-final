@@ -79,7 +79,7 @@ const Footer = () => {
           font-size: 1.8rem; letter-spacing: 0.25em; color: #ffffff;
           text-transform: uppercase; text-decoration: none; display: flex; align-items: center; gap: 10px;
         }
-        .footer-logo-v1 img { height: 36px; width: auto; }
+        .footer-logo-v1 img { height: 20px; width: auto; }
 
         @media (max-width: 992px) {
           footer.footer-v1 { min-height: auto; padding: 40px 20px 20px; }
@@ -113,7 +113,7 @@ const Footer = () => {
           </div>
         </div>
         <div className="footer-bottom-v1">
-          <p>&copy; 2026 <img src="/fylex.png" alt="Fylex" style={{ height: '3.5em', display: 'inline-block', verticalAlign: 'baseline', transform: 'translateY(0.2em)', opacity: 0.8 }} /></p>
+          <p>&copy; 2026 <span style={{ fontWeight: 800, letterSpacing: '0.15em', fontFamily: 'var(--font-primary, inherit)' }}>FYLEX</span></p>
           <div className="footer-mark-v1">F · Y · L · E · X</div>
           <p>Crafted with Intention</p>
         </div>
