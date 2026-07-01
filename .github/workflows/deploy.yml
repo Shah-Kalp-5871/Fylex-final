@@ -55,7 +55,8 @@ jobs:
             npm run build
 
             echo "♻️  Restarting frontend service..."
-            pm2 restart fylex-frontend --update-env || pm2 start node_modules/next/dist/bin/next --name "fylex-frontend" -- start -p 3002
+            pm2 delete fylex-frontend || true
+            pm2 start node_modules/next/dist/bin/next --name "fylex-frontend" -- start -p 3003 -H 0.0.0.0
 
             # ── PERSIST PM2 STATE ──────────────────────────────────────────
             echo "💾 Saving PM2 process list..."
