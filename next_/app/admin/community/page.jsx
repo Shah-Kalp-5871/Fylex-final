@@ -152,7 +152,7 @@ const CommunityPage = () => {
       <div className="max-w-[1600px] mx-auto">
         <PageHeader
           title="Community Gallery"
-          subtitle={<span>Manage images for The <img src="/fylex.png" alt="FYLEX" style={{ height: '2.5em', display: 'inline-block', verticalAlign: 'middle', transform: 'translateY(-0.1em)' }} /> World. section on the homepage</span>}
+          subtitle={<span>Manage images for The <img src="/fylex.png" alt="FYLEX" style={{ height: '0.8em', display: 'inline-block', verticalAlign: 'middle', transform: 'translateY(-0.1em)' }} /> World. section on the homepage</span>}
           action={{ label: 'Add Image', icon: 'fas fa-plus', onClick: handleAdd }}
         />
 
@@ -198,7 +198,7 @@ const CommunityPage = () => {
               Gallery Images
             </h3>
             <span style={{ fontSize: 12, color: '#9ca3af' }}>
-              Drag images in The <img src="/fylex.png" alt="FYLEX" style={{ height: '2.5em', display: 'inline-block', verticalAlign: 'middle', transform: 'translateY(-0.1em)' }} /> World. carousel
+              Drag images in The <img src="/fylex.png" alt="FYLEX" style={{ height: '0.8em', display: 'inline-block', verticalAlign: 'middle', transform: 'translateY(-0.1em)' }} /> World. carousel
             </span>
           </div>
 
@@ -214,7 +214,7 @@ const CommunityPage = () => {
               }}>
                 <i className="fas fa-camera-retro" style={{ fontSize: 48, marginBottom: 16, opacity: 0.3 }}></i>
                 <p style={{ fontSize: 16, fontWeight: 600, color: '#6b7280', marginBottom: 4 }}>No images yet</p>
-                <p style={{ fontSize: 13 }}>Add your first community image to showcase in The <img src="/fylex.png" alt="FYLEX" style={{ height: '2.5em', display: 'inline-block', verticalAlign: 'middle', transform: 'translateY(-0.1em)' }} /> World.</p>
+                <p style={{ fontSize: 13 }}>Add your first community image to showcase in The <img src="/fylex.png" alt="FYLEX" style={{ height: '0.8em', display: 'inline-block', verticalAlign: 'middle', transform: 'translateY(-0.1em)' }} /> World.</p>
                 <button
                   onClick={handleAdd}
                   style={{

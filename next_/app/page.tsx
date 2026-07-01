@@ -17,7 +17,7 @@ gsap.registerPlugin(ScrollTrigger);
 
 const injectLogo = (text: string) => {
   if (!text) return '';
-  return text.replace(/(Fylexx|Fylex|FYLEXX|FYLEX)/gi, '<img src="/fylex.png" alt="$1" style="height: 2.5em; display: inline-block; vertical-align: middle; transform: translateY(-0.1em); filter: invert(1);" />');
+  return text.replace(/(Fylexx|Fylex|FYLEXX|FYLEX)/gi, '<img src="/fylex.png" alt="$1" style="height: 0.8em; display: inline-block; vertical-align: middle; transform: translateY(-0.1em); filter: invert(1);" />');
 };
 
 // ─── DATA ────────────────────────────────────────────────────────────────────
