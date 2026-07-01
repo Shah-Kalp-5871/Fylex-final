@@ -97,7 +97,7 @@ const Footer = () => {
         <div className="footer-main-v1">
           <div className="footer-col-v1 footer-brand-v1">
             <Link href="/" className="footer-logo-v1">
-              <img src="/footer_logo.jpeg" alt="Fylex" />
+              <img src="/fylex_logo_name.png" alt="Fylex" />
             </Link>
             <p>Built On Experience, Designed Around Choice.</p>
           </div>
